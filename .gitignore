@@ -59,3 +59,4 @@ lib/
 
 # Redis Dump
 dump.rdb
+*.dump

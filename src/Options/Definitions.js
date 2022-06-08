@@ -40,6 +40,7 @@ module.exports.ParseServerOptions = {
   appId: {
     env: 'PARSE_SERVER_APPLICATION_ID',
     help: 'Your Parse Application ID',
+    default: 'mappid',
     required: true,
   },
   appName: {
@@ -239,6 +240,7 @@ module.exports.ParseServerOptions = {
   masterKey: {
     env: 'PARSE_SERVER_MASTER_KEY',
     help: 'Your Parse Master Key',
+    default: 'mmasterkey',
     required: true,
   },
   masterKeyIps: {
