@@ -4,5 +4,5 @@
 	"appName": "2048multiple",
 	"databaseURI": "mongodb://127.0.0.1:27017/parse2048",
 	"cloud": "/cloud/main.js",
-	"restApiKey": "myrestapikey"
+	"restAPIKey": "myrestapikey"
 }
