@@ -2,5 +2,7 @@
 	"appId": "8895e20f75022cca1445c471167ce932",
 	"masterKey": "f70feab1138002b61be6fc3c464482f1",
 	"appName": "2048multiple",
-	"databaseURI": "mongodb://127.0.0.1:27017/parse2048"
+	"databaseURI": "mongodb://127.0.0.1:27017/parse2048",
+	"cloud": "/cloud/main.js",
+	"restApiKey": "myrestapikey"
 }
