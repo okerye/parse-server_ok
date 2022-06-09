@@ -5,7 +5,8 @@
       "appId": "shouldbeaunpredictablestring",
       "masterKey": "shouldbeaunpredictablestringtoo",
       "appName": "okeryeserver",
-      "allowInsecureHTTP": true
+
     }
-  ]
+  ],
+  "allowInsecureHTTP": true
 }
