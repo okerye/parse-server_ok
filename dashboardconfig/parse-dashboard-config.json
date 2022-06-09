@@ -4,7 +4,8 @@
       "serverURL": "http://localhost:1337/parse",
       "appId": "shouldbeaunpredictablestring",
       "masterKey": "shouldbeaunpredictablestringtoo",
-      "appName": "okeryeserver"
+      "appName": "okeryeserver",
+      "allowInsecureHTTP": true
     }
   ]
 }
