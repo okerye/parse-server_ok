@@ -45,7 +45,6 @@ Parse.Cloud.define("averageStars", async (request) => {
 var TEAMS_JSON_URL = "https://gist.githubusercontent.com/jawache/0be7f073eb27762d97cac34972ea3468/raw/e8b4f92e7ca677da38700e43e506971d9d592a2a/premier_teams.json";
 
 var Team = Parse.Object.extend("Team");
-
 Parse.Cloud.define("createTeams", () => {	
   //var promise = new Parse.Promise();		
 	console.log("Creating teams...");		
@@ -72,5 +71,5 @@ Parse.Cloud.define("createTeams", () => {
 	});
 
 
-	return promise;	
+	return "Done! createTeams";	
 });
