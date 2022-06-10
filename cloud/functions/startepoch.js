@@ -53,21 +53,24 @@ Parse.Cloud.define("createTeams", () => {
 
 	const leveldata = require("../../levels/s1.json");
 
-	for (var i = 0; i < leveldata.length; i++) {
-		var item = leveldata[i];
+	var leveld = new LevelData();
+		leveld.save(leveldata);
+
+	// for (var i = 0; i < leveldata.length; i++) {
+	// 	var item = leveldata[i];
 		
-		var leveld = new LevelData();
-		promises.push(leveld.save(item));
-		//TEAMS_MAP[item.code] = team;
-	};
+	// 	var leveld = new LevelData();
+	// 	leveld.save(item);
+	// 	//TEAMS_MAP[item.code] = team;
+	// };
 	
 	
-	Parse.Promise.when(promises).then(function() {
-		console.log("All teams created");
-		//promise.resolve();		
-	}, function error(err) {
-		console.error(err);
-	});	
+	// Parse.Promise.when(promises).then(function() {
+	// 	console.log("All teams created");
+	// 	//promise.resolve();		
+	// }, function error(err) {
+	// 	console.error(err);
+	// });	
 
 	// loadJSON( TEAMS_JSON_URL, function( data ) {
  //    for (var i = 0; i < data.length; i++) {
