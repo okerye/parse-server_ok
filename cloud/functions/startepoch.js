@@ -49,7 +49,7 @@ Parse.Cloud.define("createTeams", () => {
   //var promise = new Parse.Promise();		
 	console.log("Creating teams...");		
 	var promises = [];
-	$.getJSON( TEAMS_JSON_URL, function( data ) {
+	loadJSON( TEAMS_JSON_URL, function( data ) {
     for (var i = 0; i < data.length; i++) {
 			var item = data[i];
 			console.log("Saving team " + item.name);
