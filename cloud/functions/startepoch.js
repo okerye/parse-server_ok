@@ -41,3 +41,35 @@ Parse.Cloud.define("averageStars", async (request) => {
   }
   return sum / results.length;
 });
+
+var TEAMS_JSON_URL = "https://gist.githubusercontent.com/jawache/0be7f073eb27762d97cac34972ea3468/raw/e8b4f92e7ca677da38700e43e506971d9d592a2a/premier_teams.json";
+
+
+Parse.Cloud.define("createTeams", () => {	
+  var promise = new Parse.Promise();		
+	console.log("Creating teams...");		
+	var promises = [];
+	$.getJSON( TEAMS_JSON_URL, function( data ) {
+    for (var i = 0; i < data.length; i++) {
+			var item = data[i];
+			console.log("Saving team " + item.name);
+			if (item.squadMarketValue) {
+  			item.squadMarketValue = parseFloat(item.squadMarketValue.slice(0, -1).replace(',',''));				
+			}
+			var team = new Team();
+			promises.push(team.save(item));
+			TEAMS_MAP[item.code] = team;
+		};
+		
+		
+		Parse.Promise.when(promises).then(function() {
+			console.log("All teams created");
+			promise.resolve();		
+		}, function error(err) {
+			console.error(err);
+		});			
+	});
+
+
+	return promise;	
+});
