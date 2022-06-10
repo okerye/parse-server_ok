@@ -104,6 +104,21 @@ var SolvingPuzzleList = Parse.Object.extend("SolvingPuzzleList");
 var SolvedCountPlayerRankList = Parse.Object.extend("SolvedCountPlayerRankList");
 var HardPuzzleRankList = Parse.Object.extend("HardPuzzleRankList");
 
+function initLevelDatas(){
+	var levels = []
+	const leveldata = require("../../levels/s1.json");
+	leveldata.epochcode = null;
+	leveldata.hero = null;
+	leveldata.playedtimes = 0;
+	leveldata.solvedtimes = 0;
+
+	var leveld = new LevelData();
+	leveld.save(leveldata).then((Obj)=>{
+	levels.push(Obj.objectId);
+
+	});
+	return levels;
+};
 
 function initEpochData(){
 	initLevelDatas().then((levels)=>{
@@ -132,18 +147,3 @@ function initEpochData(){
 	
 };
 
-function initLevelDatas(){
-	var levels = []
-	const leveldata = require("../../levels/s1.json");
-	leveldata.epochcode = null;
-	leveldata.hero = null;
-	leveldata.playedtimes = 0;
-	leveldata.solvedtimes = 0;
-
-	var leveld = new LevelData();
-	leveld.save(leveldata).then((Obj)=>{
-	levels.push(Obj.objectId);
-
-	});
-	return levels;
-};
