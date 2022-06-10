@@ -42,19 +42,18 @@ Parse.Cloud.define("averageStars", async (request) => {
   return sum / results.length;
 });
 
-var TEAMS_JSON_URL = "https://gist.githubusercontent.com/jawache/0be7f073eb27762d97cac34972ea3468/raw/e8b4f92e7ca677da38700e43e506971d9d592a2a/premier_teams.json";
 
-var Team = Parse.Object.extend("Team");
-var LevelData = Parse.Object.extend("LevelData");
-Parse.Cloud.define("createTeams", () => {	
+
+Parse.Cloud.define("StartEpoch", () => {	
+	initEpochData();
   //var promise = new Parse.Promise();		
-	console.log("Creating teams...");		
-	var promises = [];
+	//console.log("Creating teams...");		
+	// var promises = [];
 
-	const leveldata = require("../../levels/s1.json");
+	// const leveldata = require("../../levels/s1.json");
 
-	var leveld = new LevelData();
-		leveld.save(leveldata);
+	// var leveld = new LevelData();
+	// 	leveld.save(leveldata);
 
 	// for (var i = 0; i < leveldata.length; i++) {
 	// 	var item = leveldata[i];
@@ -94,5 +93,36 @@ Parse.Cloud.define("createTeams", () => {
 	// });
 
 
-	return "Done! createTeams";	
+	return "Done! StartEpoch";	
 });
+
+var EpochData = Parse.Object.extend("EpochData");
+var LevelData = Parse.Object.extend("LevelData");
+var UnsolvedPuzzleList = Parse.Object.extend("UnsolvedPuzzleList");
+var SolvedPuzzleList = Parse.Object.extend("SolvedPuzzleList");
+var SolvingPuzzleList = Parse.Object.extend("SolvingPuzzleList");
+var SolvedCountPlayerRankList = Parse.Object.extend("SolvedCountPlayerRankList");
+var HardPuzzleRankList = Parse.Object.extend("HardPuzzleRankList");
+
+
+function initEpochData(){
+	var edata = new EpochData();
+	edata.epochcode = edata.objectId;
+	edata.endtime = new Date();
+	edata.unsolvedpuzzlelist = new UnsolvedPuzzleList();
+	edata.solvedpuzzlelist = new SolvedPuzzleList();
+	edata.solvingpuzzlelist = new SolvingPuzzleList();
+	edata.solvedcountplayerrankList = new SolvedCountPlayerRankList();
+	edata.hardpuzzleranklist = new HardPuzzleRankList();
+};
+
+function initLevelDatas(EpochObj){
+	const leveldata = require("../../levels/s1.json");
+	leveldata.epochcode = EpochObj.epochcode;
+	leveldata.hero = null;
+	leveldata.playedtimes = 0;
+	leveldata.solvedtimes = 0;
+
+	var leveld = new LevelData();
+		leveld.save(leveldata);
+};
