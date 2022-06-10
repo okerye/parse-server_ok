@@ -7,7 +7,8 @@
 //6. create solving puzzle list
 //7. create solved-count player rank list
 //8. create hard-puzzle rank list
-Parse.Cloud.define("startepoch", ()=>
+Parse.Cloud.define('startepoch', ()=>
 {
-	console.log("startepoch called!");
+	//console.log("startepoch called!");
+	return 'startepoch called!';
 });
