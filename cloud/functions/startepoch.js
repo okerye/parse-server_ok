@@ -110,10 +110,16 @@ function initEpochData(){
 	edata.epochcode = edata.objectId;
 	edata.endtime = new Date();
 	edata.unsolvedpuzzlelist = new UnsolvedPuzzleList();
+	edata.unsolvedpuzzlelist.save();
 	edata.solvedpuzzlelist = new SolvedPuzzleList();
+	edata.solvedpuzzlelist.save();
 	edata.solvingpuzzlelist = new SolvingPuzzleList();
+	edata.solvingpuzzlelist.save();
 	edata.solvedcountplayerrankList = new SolvedCountPlayerRankList();
+	edata.solvedcountplayerrankList.save();
 	edata.hardpuzzleranklist = new HardPuzzleRankList();
+	edata.hardpuzzleranklist.save();
+	edata.save();
 };
 
 function initLevelDatas(EpochObj){

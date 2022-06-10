@@ -130,7 +130,8 @@
     "prettier": "prettier --write {src,spec}/{**/*,*}.js",
     "prepare": "npm run build",
     "postinstall": "node -p 'require(\"./postinstall.js\")()'",
-    "madge:circular": "node_modules/.bin/madge ./src --circular"
+    "madge:circular": "node_modules/.bin/madge ./src --circular",
+    "superrun": "git pull && npm run build && npm start config.json"
   },
   "engines": {
     "node": ">=12.22.10 <17"
