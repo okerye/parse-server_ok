@@ -106,29 +106,44 @@ var HardPuzzleRankList = Parse.Object.extend("HardPuzzleRankList");
 
 
 function initEpochData(){
-	var edata = new EpochData();
-	edata.epochcode = edata.objectId;
-	edata.endtime = new Date();
-	edata.unsolvedpuzzlelist = new UnsolvedPuzzleList();
-	edata.unsolvedpuzzlelist.save();
-	edata.solvedpuzzlelist = new SolvedPuzzleList();
-	edata.solvedpuzzlelist.save();
-	edata.solvingpuzzlelist = new SolvingPuzzleList();
-	edata.solvingpuzzlelist.save();
-	edata.solvedcountplayerrankList = new SolvedCountPlayerRankList();
-	edata.solvedcountplayerrankList.save();
-	edata.hardpuzzleranklist = new HardPuzzleRankList();
-	edata.hardpuzzleranklist.save();
-	edata.save();
+	initLevelDatas().then((levels)=>{
+		var edata = new EpochData();
+		edata.epochcode = null;
+		edata.endtime = new Date();
+		// edata.unsolvedpuzzlelist = new UnsolvedPuzzleList();
+		// edata.unsolvedpuzzlelist.save();
+		// edata.solvedpuzzlelist = new SolvedPuzzleList();
+		// edata.solvedpuzzlelist.save();
+		// edata.solvingpuzzlelist = new SolvingPuzzleList();
+		// edata.solvingpuzzlelist.save();
+		// edata.solvedcountplayerrankList = new SolvedCountPlayerRankList();
+		// edata.solvedcountplayerrankList.save();
+		// edata.hardpuzzleranklist = new HardPuzzleRankList();
+		// edata.hardpuzzleranklist.save();
+		edata.save().then((edata)=>{
+			for(var i = 0; i < edata.length; i++)
+			{
+				var data=edata[i];
+				data.epochcode = edata.objectId;
+				data.save();
+			};
+		});
+	});
+	
 };
 
-function initLevelDatas(EpochObj){
+function initLevelDatas(){
+	var levels = []
 	const leveldata = require("../../levels/s1.json");
-	leveldata.epochcode = EpochObj.epochcode;
+	leveldata.epochcode = null;
 	leveldata.hero = null;
 	leveldata.playedtimes = 0;
 	leveldata.solvedtimes = 0;
 
 	var leveld = new LevelData();
-		leveld.save(leveldata);
+	leveld.save(leveldata).then((Obj)=>{
+	levels.push(Obj.objectId);
+
+	});
+	return levels;
 };
