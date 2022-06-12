@@ -22,23 +22,22 @@ Parse.Cloud.define("startepoch", () => {
 	var edata = new EpochData();
 	edata.epochcode = null;
 	edata.endtime = new Date();
-	edata.save();
-	return 'Done';
-	// edata.save().then(function(epochdata){
-	// 	var promises = []
-	// 	for(var i = 1; i <= 5; i++)
-	// 	{
-	// 			const leveldata = require("../../levels/s" + i + ".json");
-	// 			leveldata.epochcode = epochdata.objectId;
-	// 			leveldata.hero = null;
-	// 			leveldata.playedtimes = 0;
-	// 			leveldata.solvedtimes = 0;
+	edata.save().then(function(epochdata){
+		var promises = []
+		for(var i = 1; i <= 5; i++)
+		{
+				const leveldata = require("../../levels/s" + i + ".json");
+				leveldata.epochcode = epochdata.objectId;
+				leveldata.hero = null;
+				leveldata.playedtimes = 0;
+				leveldata.solvedtimes = 0;
 
-	// 			var leveld = new LevelData();
-	// 			promises.push(leveld.save(leveldata));
-	// 	};
-	// 	return Promise.all(promises);
-	// });
+				var leveld = new LevelData();
+				promises.push(leveld.save(leveldata));
+		};
+		return Promise.all(promises);
+	});
+	return 'Done';
 
 
   //var promise = new Parse.Promise();		
