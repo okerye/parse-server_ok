@@ -17,7 +17,7 @@ var EpochData = Parse.Object.extend("EpochData");
 
 
 Parse.Cloud.define("StartEpoch", () => {	
-	initEpochData().then(initLevelDatas(epochdata)).then({return "Done! StartEpoch";});
+	initEpochData().then(initLevelDatas(epochdata));
   //var promise = new Parse.Promise();		
 	//console.log("Creating teams...");		
 	// var promises = [];
