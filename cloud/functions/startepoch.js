@@ -22,12 +22,12 @@ Parse.Cloud.define("startepoch", () => {
 	var edata = new EpochData();
 	edata.epochcode = null;
 	edata.endtime = new Date();
-	edata.save().then(function(epochdata){
+	edata.save().then(function(edata){
 		var promises = []
 		for(var i = 1; i <= 5; i++)
 		{
 				const leveldata = require("../../levels/s" + i + ".json");
-				leveldata.epochcode = epochdata.objectId;
+				leveldata.epochcode = edata.objectId;
 				leveldata.hero = "";
 				leveldata.playedtimes = 0;
 				leveldata.solvedtimes = 0;
