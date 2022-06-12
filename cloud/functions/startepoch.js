@@ -16,7 +16,7 @@ var EpochData = Parse.Object.extend("EpochData");
 
 
 
-Parse.Cloud.define("StartEpoch", () => {	
+Parse.Cloud.define("startepoch", () => {	
 	//initEpochData().then(initLevelDatas(epochdata));
 
 	var edata = new EpochData();
