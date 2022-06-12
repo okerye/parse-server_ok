@@ -23,6 +23,7 @@ Parse.Cloud.define("startepoch", () => {
 	edata.epochcode = null;
 	edata.endtime = new Date();
 	edata.save();
+	return 'Done';
 	// edata.save().then(function(epochdata){
 	// 	var promises = []
 	// 	for(var i = 1; i <= 5; i++)
