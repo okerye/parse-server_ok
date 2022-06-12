@@ -112,7 +112,7 @@ function initLevelDatas(edata){
 			var leveld = new LevelData();
 			promises.push(leveld.save(leveldata));
 	};
-	return Promise.all(promises);
+	return promises;
 };
 
 function initEpochData(){
