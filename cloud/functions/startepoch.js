@@ -100,7 +100,7 @@ var SolvedCountPlayerRankList = Parse.Object.extend("SolvedCountPlayerRankList")
 var HardPuzzleRankList = Parse.Object.extend("HardPuzzleRankList");
 
 function initLevelDatas(edata){
-	var promises = []
+	var promises = [];
 	for(var i = 1; i <= 5; i++)
 	{
 			const leveldata = require("../../levels/s" + i + ".json");
