@@ -17,26 +17,28 @@ var EpochData = Parse.Object.extend("EpochData");
 
 
 Parse.Cloud.define("startepoch", () => {	
-	//initEpochData().then(initLevelDatas(epochdata));
-
-	var edata = new EpochData();
-	edata.epochcode = null;
-	edata.endtime = new Date();
-	edata.save().then(function(epochdata){
-		var promises = []
-		for(var i = 1; i <= 5; i++)
-		{
-				const leveldata = require("../../levels/s" + i + ".json");
-				leveldata.epochcode = epochdata.id;
-				leveldata.hero = "";
-				leveldata.playedtimes = 0;
-				leveldata.solvedtimes = 0;
-
-				var leveld = new LevelData();
-				promises.push(leveld.save(leveldata));
-		};
-		return Promise.all(promises);
+	initEpochData().then((epochdata)=>{
+		initLevelDatas(epochdata);
 	});
+
+	// var edata = new EpochData();
+	// edata.epochcode = null;
+	// edata.endtime = new Date();
+	// edata.save().then(function(epochdata){
+	// 	var promises = []
+	// 	for(var i = 1; i <= 5; i++)
+	// 	{
+	// 			const leveldata = require("../../levels/s" + i + ".json");
+	// 			leveldata.epochcode = epochdata.id;
+	// 			leveldata.hero = "";
+	// 			leveldata.playedtimes = 0;
+	// 			leveldata.solvedtimes = 0;
+
+	// 			var leveld = new LevelData();
+	// 			promises.push(leveld.save(leveldata));
+	// 	};
+	// 	return Promise.all(promises);
+	// });
 	return 'Done';
 
 
@@ -100,7 +102,7 @@ function initLevelDatas(edata){
 	for(var i = 1; i <= 5; i++)
 	{
 			const leveldata = require("../../levels/s" + i + ".json");
-			leveldata.epochcode = edata.objectId;
+			leveldata.epochcode = edata.id;
 			leveldata.hero = null;
 			leveldata.playedtimes = 0;
 			leveldata.solvedtimes = 0;
