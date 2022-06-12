@@ -18,7 +18,9 @@ var EpochData = Parse.Object.extend("EpochData");
 
 Parse.Cloud.define("startepoch", () => {	
 	initEpochData().then((epochdata)=>{
-		initLevelDatas(epochdata);
+		return initLevelDatas(epochdata);
+	}).then((leveldata)=>{
+		return initUnsolvedPuzzleList(leveldata);
 	});
 
 	// var edata = new EpochData();
@@ -129,5 +131,13 @@ function initEpochData(){
 		// edata.hardpuzzleranklist = new HardPuzzleRankList();
 		// edata.hardpuzzleranklist.save();
 		return edata.save();
+};
+
+function initUnsolvedPuzzleList(leveldatas){
+	var unsolvedpuzzlelist = new UnsolvedPuzzleList();
+	leveldatas.forEach((leveldata) => {
+		unsolvedpuzzlelist.levels.push(leveldata.id);
+	});
+	return unsolvedpuzzlelist.save();
 };
 
