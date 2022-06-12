@@ -28,7 +28,7 @@ Parse.Cloud.define("startepoch", () => {
 		{
 				const leveldata = require("../../levels/s" + i + ".json");
 				leveldata.epochcode = epochdata.objectId;
-				leveldata.hero = null;
+				leveldata.hero = "";
 				leveldata.playedtimes = 0;
 				leveldata.solvedtimes = 0;
 
