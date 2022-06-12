@@ -9,43 +9,15 @@
 //8. create hard-puzzle rank list
 
 var EpochData = Parse.Object.extend("EpochData");
-var testepochdata = {
-	"epochcode": "e202201",
-	"endtime": ""
-};
-
-Parse.Cloud.define('startepoch', ()=>
-{
-	//console.log("startepoch called!");
-	//var promise = new Parse.Promise();
-	//var promises = [];
-	var epochdata = new EpochData();
-	epochdata.save(testepochdata).then(function() {
-		return 'startepoch succeeded!';
-	});
-	//promises.push(epochdata.save(testepochdata));
-
-	//Parse.Promise.when(promises).then(function() {
-	//	promise.resolve();
-	//});
-	return 'startepoch called!';
-});
-
-Parse.Cloud.define("averageStars", async (request) => {
-  const query = new Parse.Query("Review");
-  query.equalTo("movie", request.params.movie);
-  const results = await query.find();
-  let sum = 0;
-  for (let i = 0; i < results.length; ++i) {
-    sum += results[i].get("stars");
-  }
-  return sum / results.length;
-});
+// var testepochdata = {
+// 	"epochcode": "e202201",
+// 	"endtime": ""
+// };
 
 
 
 Parse.Cloud.define("StartEpoch", () => {	
-	initEpochData();
+	initEpochData().then(initLevelDatas(epochdata)).then({return "Done! StartEpoch";});
   //var promise = new Parse.Promise();		
 	//console.log("Creating teams...");		
 	// var promises = [];
@@ -91,9 +63,6 @@ Parse.Cloud.define("StartEpoch", () => {
 	// 		console.error(err);
 	// 	});			
 	// });
-
-
-	return "Done! StartEpoch";	
 });
 
 var EpochData = Parse.Object.extend("EpochData");
@@ -104,24 +73,24 @@ var SolvingPuzzleList = Parse.Object.extend("SolvingPuzzleList");
 var SolvedCountPlayerRankList = Parse.Object.extend("SolvedCountPlayerRankList");
 var HardPuzzleRankList = Parse.Object.extend("HardPuzzleRankList");
 
-function initLevelDatas(){
-	var levels = []
-	const leveldata = require("../../levels/s1.json");
-	leveldata.epochcode = null;
-	leveldata.hero = null;
-	leveldata.playedtimes = 0;
-	leveldata.solvedtimes = 0;
+function initLevelDatas(edata){
+	var promises = []
+	for(var i = 1; i <= 5; i++)
+	{
+			const leveldata = require("../../levels/s" + i + ".json");
+			leveldata.epochcode = edata.objectId;
+			leveldata.hero = null;
+			leveldata.playedtimes = 0;
+			leveldata.solvedtimes = 0;
 
-	var leveld = new LevelData();
-	leveld.save(leveldata).then((Obj)=>{
-	levels.push(Obj.objectId);
-
-	});
-	return levels;
+			var leveld = new LevelData();
+			promises.push(leveld.save(leveldata));
+	};
+	return Promise.all(promises);
 };
 
 function initEpochData(){
-	initLevelDatas().then((levels)=>{
+
 		var edata = new EpochData();
 		edata.epochcode = null;
 		edata.endtime = new Date();
@@ -135,15 +104,6 @@ function initEpochData(){
 		// edata.solvedcountplayerrankList.save();
 		// edata.hardpuzzleranklist = new HardPuzzleRankList();
 		// edata.hardpuzzleranklist.save();
-		edata.save().then((edata)=>{
-			for(var i = 0; i < edata.length; i++)
-			{
-				var data=edata[i];
-				data.epochcode = edata.objectId;
-				data.save();
-			};
-		});
-	});
-	
+		return edata.save();
 };
 

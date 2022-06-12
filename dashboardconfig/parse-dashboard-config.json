@@ -1,11 +1,10 @@
 {
   "apps": [
     {
-      "serverURL": "http://localhost:1337/parse",
-      "appId": "shouldbeaunpredictablestring",
-      "masterKey": "shouldbeaunpredictablestringtoo",
-      "appName": "okeryeserver",
-
+      "appId": "8895e20f75022cca1445c471167ce932",
+      "masterKey": "f70feab1138002b61be6fc3c464482f1",
+      "appName": "2048multiple",
+      "serverURL": "http://35.89.31.148:1337/parse",
     }
   ],
   "allowInsecureHTTP": true
