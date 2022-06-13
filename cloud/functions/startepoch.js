@@ -8,26 +8,61 @@
 //7. create solved-count player rank list
 //8. create hard-puzzle rank list
 
-var EpochData = Parse.Object.extend("EpochData");
 // var testepochdata = {
 // 	"epochcode": "e202201",
 // 	"endtime": ""
 // };
 
 
+var EpochData = Parse.Object.extend("EpochData");
+var LevelData = Parse.Object.extend("LevelData");
+var UnsolvedPuzzleList = Parse.Object.extend("UnsolvedPuzzleList");
+var SolvedPuzzleList = Parse.Object.extend("SolvedPuzzleList");
+var SolvingPuzzleList = Parse.Object.extend("SolvingPuzzleList");
+var SolvedCountPlayerRankList = Parse.Object.extend("SolvedCountPlayerRankList");
+var HardPuzzleRankList = Parse.Object.extend("HardPuzzleRankList");
+
 
 Parse.Cloud.define("startepoch", () => {	
 	initEpochData().then((epochdata)=>{
-		var promises = [];
-		promises.push(initSolvedPuzzleList(epochdata));
-		promises.push(initSolvingPuzzleList(epochdata));
-		promises.push(initSolvedCountPlayerRankList(epochdata));
-		promises.push(initHardPuzzleRankList(epochdata));
-		Promise.all(promises).then({
-			return new Promise.epochdata;
-		});
-	}).then((hardpuzzleranklist)=>{
-		return initLevelDatas(hardpuzzleranklist);
+			initSolvedPuzzleList(epochdata).then((SolvedPuzzleList)=>{
+			const query = new Parse.Query(EpochData);
+			query.get(SolvedPuzzleList.epochcode)
+			.then((epochdata) => {
+			  // The object was retrieved successfully.
+			  epochdata.set('SolvedPuzzleList', SolvedPuzzleList);
+			  return epochdata.save();
+			});
+		}).then((epochdata)=>{
+			initSolvingPuzzleList(epochdata).then((SolvingPuzzleList)=>{
+			const query = new Parse.Query(EpochData);
+			query.get(SolvingPuzzleList.epochcode)
+			.then((epochdata) => {
+			  // The object was retrieved successfully.
+			  epochdata.set('SolvingPuzzleList', SolvingPuzzleList);
+			  return epochdata.save();
+			});
+		}).then((epochdata)=>{
+			initSolvedCountPlayerRankList(epochdata).then((SolvedCountPlayerRankList)=>{
+			const query = new Parse.Query(EpochData);
+			query.get(SolvedCountPlayerRankList.epochcode)
+			.then((epochdata) => {
+			  // The object was retrieved successfully.
+			  epochdata.set('SolvedCountPlayerRankList', SolvedCountPlayerRankList);
+			  return epochdata.save();
+			});
+		}).then((epochdata)=>{
+			initHardPuzzleRankList(epochdata).then((HardPuzzleRankList)=>{
+			const query = new Parse.Query(EpochData);
+			query.get(HardPuzzleRankList.epochcode)
+			.then((epochdata) => {
+			  // The object was retrieved successfully.
+			  epochdata.set('HardPuzzleRankList', HardPuzzleRankList);
+			  return epochdata.save();
+			});
+		});	
+	}).then((epochdata)=>{
+		return initLevelDatas(epochdata);
 	}).then((puzzlelist)=>{
 		return initUnsolvedPuzzleList(puzzlelist);
 	});
@@ -99,14 +134,6 @@ Parse.Cloud.define("startepoch", () => {
 	// 	});			
 	// });
 });
-
-var EpochData = Parse.Object.extend("EpochData");
-var LevelData = Parse.Object.extend("LevelData");
-var UnsolvedPuzzleList = Parse.Object.extend("UnsolvedPuzzleList");
-var SolvedPuzzleList = Parse.Object.extend("SolvedPuzzleList");
-var SolvingPuzzleList = Parse.Object.extend("SolvingPuzzleList");
-var SolvedCountPlayerRankList = Parse.Object.extend("SolvedCountPlayerRankList");
-var HardPuzzleRankList = Parse.Object.extend("HardPuzzleRankList");
 
 function initEpochData(){
 
