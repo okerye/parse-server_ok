@@ -135,10 +135,11 @@ function initEpochData(){
 
 function initUnsolvedPuzzleList(leveldatas){
 	var unsolvedpuzzlelist = new UnsolvedPuzzleList();
-	unsolvedpuzzlelist.levels = [];
-	leveldatas.forEach((leveldata) => {
-		unsolvedpuzzlelist.levels.push(leveldata.id);
-	});
+	//unsolvedpuzzlelist.levels = [];
+	//leveldatas.forEach((leveldata) => {
+	//	unsolvedpuzzlelist.levels.push(leveldata.id);
+	//});
+	unsolvedpuzzlelist.levelid = leveldatas[0].id;
 	return unsolvedpuzzlelist.save();
 };
 
