@@ -18,11 +18,17 @@ var EpochData = Parse.Object.extend("EpochData");
 
 Parse.Cloud.define("startepoch", () => {	
 	initEpochData().then((epochdata)=>{
-		return initLevelDatas(epochdata);
-	}).then(leveldatas =>{
-		return initUnsolvedPuzzleList(leveldatas);
-	}).then(()=>{
-		return initSolvedPuzzleList();
+		return initSolvedPuzzleList(epochdata);
+	}).then(solvedpuzzlelist =>{
+		return initSolvingPuzzleList(solvedpuzzlelist);
+	}).then((solvingpuzzlelist)=>{
+		return initSolvedCountPlayerRankList(solvingpuzzlelist);
+	}).then((solvedcountplayerrankList)=>{
+		return initHardPuzzleRankList(solvedcountplayerrankList);
+	}).then((hardpuzzleranklist)=>{
+		return initLevelDatas(hardpuzzleranklist);
+	}).then((puzzlelist)=>{
+		return initUnsolvedPuzzleList(puzzlelist);
 	});
 
 	// var edata = new EpochData();
@@ -101,12 +107,69 @@ var SolvingPuzzleList = Parse.Object.extend("SolvingPuzzleList");
 var SolvedCountPlayerRankList = Parse.Object.extend("SolvedCountPlayerRankList");
 var HardPuzzleRankList = Parse.Object.extend("HardPuzzleRankList");
 
-function initLevelDatas(edata){
+function initEpochData(){
+
+		var edata = new EpochData();
+		edata.set('endtime', Date());
+		return edata.save();
+};
+
+function initSolvedPuzzleList(edata){
+	var solvedpuzzlelist = new SolvedPuzzleList();
+	var puzzles = [];
+	var puzzlecount = 0;
+	solvedpuzzlelist.set('puzzles', puzzles);
+	solvedpuzzlelist.set('puzzlecount', puzzlecount);
+	solvedpuzzlelist.set('epochcode', edata);
+	var players = [];
+	var playercount = 0;
+	solvedpuzzlelist.set('players', players);
+	solvedpuzzlelist.set('playercount', playercount);
+	return solvedpuzzlelist.save();
+};
+
+function initSolvingPuzzleList(solvedpuzzlelist){
+	var solvingpuzzlelist = new SolvingPuzzleList();
+	var puzzles = [];
+	var players = [];
+	var solvingenttime = [];
+	solvingpuzzlelist.set('epochcode', solvedpuzzlelist.epochcode);
+	solvingpuzzlelist.set('puzzles', puzzles);
+	solvingpuzzlelist.set('players', players);
+	solvingpuzzlelist.set('solvingenttime', solvingenttime);
+	var puzzlecount = 0;
+	solvingpuzzlelist.set('puzzlecount', puzzlecount);
+	return solvingpuzzlelist.save();
+};
+
+function initSolvedCountPlayerRankList(solvingpuzzlelist){
+	var solvedcountplayerrankList = new SolvedCountPlayerRankList();
+	var players = [];
+	var solvedcount = [];
+	solvedcountplayerrankList.set('epochcode', solvingpuzzlelist.epochcode);
+	solvedcountplayerrankList.set('players', players);
+	solvedcountplayerrankList.set('solvedcount', solvedcount);
+	return solvedcountplayerrankList.save();
+};
+
+function initHardPuzzleRankList(solvedcountplayerrankList){
+	var hardpuzzleranklist = new HardPuzzleRankList();
+	var puzzles = [];
+	var playedtimes = [];
+	var solvedtimes = [];
+	hardpuzzleranklist.set('epochcode', solvedcountplayerrankList.epochcode);
+	hardpuzzleranklist.set('puzzles', puzzles);
+	hardpuzzleranklist.set('playedtimes', playedtimes);
+	hardpuzzleranklist.set('solvedtimes', solvedtimes);
+	return hardpuzzleranklist.save();
+};
+
+function initLevelDatas(hardpuzzleranklist){
 	var promises = [];
 	for(var i = 1; i <= 5; i++)
 	{
 			const leveldata = require("../../levels/s" + i + ".json");
-			leveldata.epochcode = edata.id;
+			leveldata.epochcode = hardpuzzleranklist.epochcode;
 			leveldata.hero = null;
 			leveldata.playedtimes = 0;
 			leveldata.solvedtimes = 0;
@@ -117,37 +180,21 @@ function initLevelDatas(edata){
 	return Promise.all(promises);
 };
 
-function initEpochData(){
 
-		var edata = new EpochData();
-		edata.set('endtime', Date());
-		// edata.unsolvedpuzzlelist = new UnsolvedPuzzleList();
-		// edata.unsolvedpuzzlelist.save();
-		// edata.solvedpuzzlelist = new SolvedPuzzleList();
-		// edata.solvedpuzzlelist.save();
-		// edata.solvingpuzzlelist = new SolvingPuzzleList();
-		// edata.solvingpuzzlelist.save();
-		// edata.solvedcountplayerrankList = new SolvedCountPlayerRankList();
-		// edata.solvedcountplayerrankList.save();
-		// edata.hardpuzzleranklist = new HardPuzzleRankList();
-		// edata.hardpuzzleranklist.save();
-		return edata.save();
-};
-
-function initUnsolvedPuzzleList(leveldatas){
+function initUnsolvedPuzzleList(puzzlelist){
 	var unsolvedpuzzlelist = new UnsolvedPuzzleList();
-	var levels = [];
-	leveldatas.forEach((leveldata) => {
-		levels.push(leveldata.id);
+	var puzzles = [];
+	var epochcode = puzzlelist[0].epochcode;
+	puzzlelist.forEach((puzzle) => {
+		puzzles.push(puzzle.id);
 	});
-	unsolvedpuzzlelist.set('levels', levels);
+	var puzzlecount = puzzles.length;
+	unsolvedpuzzlelist.set('epochcode', epochcode);
+	unsolvedpuzzlelist.set('puzzles', puzzles);
+	unsolvedpuzzlelist.set('puzzlecount', puzzlecount);
 	return unsolvedpuzzlelist.save();
 };
 
-function initSolvedPuzzleList(){
-	var solvedpuzzlelist = new SolvedPuzzleList();
-	var levels = [];
-	solvedpuzzlelist.set('levels', levels);
-	return solvedpuzzlelist.save();
-};
+
+
 
