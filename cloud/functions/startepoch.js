@@ -118,8 +118,7 @@ function initLevelDatas(edata){
 function initEpochData(){
 
 		var edata = new EpochData();
-		edata.epochcode = null;
-		edata.endtime = new Date();
+		edata.set('endtime', Date());
 		// edata.unsolvedpuzzlelist = new UnsolvedPuzzleList();
 		// edata.unsolvedpuzzlelist.save();
 		// edata.solvedpuzzlelist = new SolvedPuzzleList();
@@ -135,11 +134,11 @@ function initEpochData(){
 
 function initUnsolvedPuzzleList(leveldatas){
 	var unsolvedpuzzlelist = new UnsolvedPuzzleList();
-	//unsolvedpuzzlelist.levels = [];
-	//leveldatas.forEach((leveldata) => {
-	//	unsolvedpuzzlelist.levels.push(leveldata.id);
-	//});
-	unsolvedpuzzlelist.levelid = "";
+	var levels = [];
+	leveldatas.forEach((leveldata) => {
+		levels.push(leveldata.id);
+	});
+	unsolvedpuzzlelist.set('levels', levels);
 	return unsolvedpuzzlelist.save();
 };
 
