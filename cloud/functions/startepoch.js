@@ -26,36 +26,36 @@ var HardPuzzleRankList = Parse.Object.extend("HardPuzzleRankList");
 Parse.Cloud.define("startepoch", () => {	
 	initEpochData().then((epochdata)=>{
 
-	return initSolvedPuzzleList(epochdata).then(async(SolvedPuzzleList)=>{
+	return initSolvedPuzzleList(epochdata).then(async(solvedpuzzlelist)=>{
 
-		var epochdata = SolvedPuzzleList.get(SolvedPuzzleList.epochcode);
+		var epochdata = solvedpuzzlelist.get(solvedpuzzlelist.epochcode);
 		await epochdata.fetch();
-	  epochdata.set('SolvedPuzzleList', SolvedPuzzleList);
+	  epochdata.set('SolvedPuzzleList', solvedpuzzlelist);
 	  return epochdata.save();
 	})}).then((epochdata)=>{
 
-	return initSolvingPuzzleList(epochdata).then(async(SolvingPuzzleList)=>{
+	return initSolvingPuzzleList(epochdata).then(async(solvingpuzzlelist)=>{
 
-		var epochdata = SolvingPuzzleList.get(SolvingPuzzleList.epochcode);
+		var epochdata = solvingpuzzlelist.get(solvingpuzzlelist.epochcode);
 		await epochdata.fetch();
-	  epochdata.set('SolvingPuzzleList', SolvingPuzzleList);
+	  epochdata.set('SolvingPuzzleList', solvingpuzzlelist);
 	  return epochdata.save();
 
 	})}).then((epochdata)=>{
 
-	return initSolvedCountPlayerRankList(epochdata).then(async(SolvedCountPlayerRankList)=>{
+	return initSolvedCountPlayerRankList(epochdata).then(async(solvedcountplayerranklist)=>{
 
-		var epochdata = SolvedCountPlayerRankList.get(SolvedCountPlayerRankList.epochcode);
+		var epochdata = solvedcountplayerranklist.get(solvedcountplayerranklist.epochcode);
 		await epochdata.fetch();
-	  epochdata.set('SolvedCountPlayerRankList', SolvedCountPlayerRankList);
+	  epochdata.set('SolvedCountPlayerRankList', solvedcountplayerranklist);
 	  return epochdata.save();
 	})}).then((epochdata)=>{
 
-	return initHardPuzzleRankList(epochdata).then(async(HardPuzzleRankList)=>{
+	return initHardPuzzleRankList(epochdata).then(async(hardpuzzleranklist)=>{
 
-		var epochdata = HardPuzzleRankList.get(HardPuzzleRankList.epochcode);
+		var epochdata = hardpuzzleranklist.get(hardpuzzleranklist.epochcode);
 		await epochdata.fetch();
-	  epochdata.set('HardPuzzleRankList', HardPuzzleRankList);
+	  epochdata.set('HardPuzzleRankList', hardpuzzleranklist);
 	  return epochdata.save();
 	})}).then((epochdata)=>{
 		return initLevelDatas(epochdata);
