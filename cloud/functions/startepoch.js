@@ -19,8 +19,8 @@ var EpochData = Parse.Object.extend("EpochData");
 Parse.Cloud.define("startepoch", () => {	
 	initEpochData().then((epochdata)=>{
 		return initLevelDatas(epochdata);
-	}).then((leveldata)=>{
-		return initUnsolvedPuzzleList(leveldata);
+	}).then(leveldatas =>{
+		return initUnsolvedPuzzleList(leveldatas);
 	});
 
 	// var edata = new EpochData();
@@ -112,9 +112,7 @@ function initLevelDatas(edata){
 			var leveld = new LevelData();
 			promises.push(leveld.save(leveldata));
 	};
-	Promise.allSettled(promises).then({
-		return promises;
-	});
+	return Promise.all(promises);
 };
 
 function initEpochData(){
