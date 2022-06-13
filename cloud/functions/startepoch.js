@@ -26,7 +26,7 @@ var HardPuzzleRankList = Parse.Object.extend("HardPuzzleRankList");
 Parse.Cloud.define("startepoch", () => {	
 	initEpochData().then((epochdata)=>{
 
-	return initSolvedPuzzleList(epochdata).then((SolvedPuzzleList)=>{
+	return initSolvedPuzzleList(epochdata).then(async(SolvedPuzzleList)=>{
 
 		var epochdata = SolvedPuzzleList.get(SolvedPuzzleList.epochcode);
 		await epochdata.fetch();
@@ -34,7 +34,7 @@ Parse.Cloud.define("startepoch", () => {
 	  return epochdata.save();
 	})}).then((epochdata)=>{
 
-	return initSolvingPuzzleList(epochdata).then((SolvingPuzzleList)=>{
+	return initSolvingPuzzleList(epochdata).then(async(SolvingPuzzleList)=>{
 
 		var epochdata = SolvingPuzzleList.get(SolvingPuzzleList.epochcode);
 		await epochdata.fetch();
@@ -43,7 +43,7 @@ Parse.Cloud.define("startepoch", () => {
 
 	})}).then((epochdata)=>{
 
-	return initSolvedCountPlayerRankList(epochdata).then((SolvedCountPlayerRankList)=>{
+	return initSolvedCountPlayerRankList(epochdata).then(async(SolvedCountPlayerRankList)=>{
 
 		var epochdata = SolvedCountPlayerRankList.get(SolvedCountPlayerRankList.epochcode);
 		await epochdata.fetch();
@@ -51,7 +51,7 @@ Parse.Cloud.define("startepoch", () => {
 	  return epochdata.save();
 	})}).then((epochdata)=>{
 
-	return initHardPuzzleRankList(epochdata).then((HardPuzzleRankList)=>{
+	return initHardPuzzleRankList(epochdata).then(async(HardPuzzleRankList)=>{
 
 		var epochdata = HardPuzzleRankList.get(HardPuzzleRankList.epochcode);
 		await epochdata.fetch();
