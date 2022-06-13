@@ -60,7 +60,13 @@ Parse.Cloud.define("startepoch", () => {
 	})}).then((epochdata)=>{
 		return initLevelDatas(epochdata);
 	}).then((puzzlelist)=>{
-		return initUnsolvedPuzzleList(puzzlelist);
+		return initUnsolvedPuzzleList(puzzlelist).then(async(puzzlelist)=>{
+
+		var epochdata = puzzlelist.get("epochcode");
+		await epochdata.fetch();
+	  epochdata.set('UnsolvedPuzzleList', puzzlelist);
+	  return epochdata.save();
+	});
 	});
 
 	// var edata = new EpochData();
@@ -208,12 +214,12 @@ function initLevelDatas(epochdata){
 function initUnsolvedPuzzleList(puzzlelist){
 	var unsolvedpuzzlelist = new UnsolvedPuzzleList();
 	var puzzles = [];
-	var epochcode = puzzlelist[0].epochcode;
+	var epochdata = puzzlelist[0].get("epochcode");
 	puzzlelist.forEach((puzzle) => {
 		puzzles.push(puzzle.id);
 	});
 	var puzzlecount = puzzles.length;
-	unsolvedpuzzlelist.set('epochcode', epochcode);
+	unsolvedpuzzlelist.set('epochcode', epochdata);
 	unsolvedpuzzlelist.set('puzzles', puzzles);
 	unsolvedpuzzlelist.set('puzzlecount', puzzlecount);
 	return unsolvedpuzzlelist.save();
