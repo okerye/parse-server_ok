@@ -21,6 +21,8 @@ Parse.Cloud.define("startepoch", () => {
 		return initLevelDatas(epochdata);
 	}).then(leveldatas =>{
 		return initUnsolvedPuzzleList(leveldatas);
+	}).then(()=>{
+		return initSolvedPuzzleList();
 	});
 
 	// var edata = new EpochData();
@@ -140,5 +142,12 @@ function initUnsolvedPuzzleList(leveldatas){
 	});
 	unsolvedpuzzlelist.set('levels', levels);
 	return unsolvedpuzzlelist.save();
+};
+
+function initSolvedPuzzleList(){
+	var solvedpuzzlelist = new SolvedPuzzleList();
+	var levels = [];
+	solvedpuzzlelist.set('levels', levels);
+	return solvedpuzzlelist.save();
 };
 
