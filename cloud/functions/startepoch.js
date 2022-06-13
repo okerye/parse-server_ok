@@ -139,7 +139,7 @@ function initUnsolvedPuzzleList(leveldatas){
 	//leveldatas.forEach((leveldata) => {
 	//	unsolvedpuzzlelist.levels.push(leveldata.id);
 	//});
-	unsolvedpuzzlelist.levelid = leveldatas[0].id;
+	unsolvedpuzzlelist.levelid = "";
 	return unsolvedpuzzlelist.save();
 };
 
