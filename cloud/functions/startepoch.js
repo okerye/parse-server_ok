@@ -18,13 +18,14 @@ var EpochData = Parse.Object.extend("EpochData");
 
 Parse.Cloud.define("startepoch", () => {	
 	initEpochData().then((epochdata)=>{
-		return initSolvedPuzzleList(epochdata);
-	}).then(solvedpuzzlelist =>{
-		return initSolvingPuzzleList(solvedpuzzlelist);
-	}).then((solvingpuzzlelist)=>{
-		return initSolvedCountPlayerRankList(solvingpuzzlelist);
-	}).then((solvedcountplayerrankList)=>{
-		return initHardPuzzleRankList(solvedcountplayerrankList);
+		var promises = [];
+		promises.push(initSolvedPuzzleList(epochdata));
+		promises.push(initSolvingPuzzleList(epochdata));
+		promises.push(initSolvedCountPlayerRankList(epochdata));
+		promises.push(initHardPuzzleRankList(epochdata));
+		Promise.all(promises).then({
+			return new Promise.epochdata;
+		});
 	}).then((hardpuzzleranklist)=>{
 		return initLevelDatas(hardpuzzleranklist);
 	}).then((puzzlelist)=>{
@@ -128,48 +129,48 @@ function initSolvedPuzzleList(edata){
 	return solvedpuzzlelist.save();
 };
 
-function initSolvingPuzzleList(solvedpuzzlelist){
+function initSolvingPuzzleList(epochdata){
 	var solvingpuzzlelist = new SolvingPuzzleList();
 	var puzzles = [];
 	var players = [];
-	var solvingenttime = [];
-	solvingpuzzlelist.set('epochcode', solvedpuzzlelist.epochcode);
+	var solvingendtime = [];
+	solvingpuzzlelist.set('epochcode', epochdata);
 	solvingpuzzlelist.set('puzzles', puzzles);
 	solvingpuzzlelist.set('players', players);
-	solvingpuzzlelist.set('solvingenttime', solvingenttime);
+	solvingpuzzlelist.set('solvingendtime', solvingendtime);
 	var puzzlecount = 0;
 	solvingpuzzlelist.set('puzzlecount', puzzlecount);
 	return solvingpuzzlelist.save();
 };
 
-function initSolvedCountPlayerRankList(solvingpuzzlelist){
+function initSolvedCountPlayerRankList(epochdata){
 	var solvedcountplayerrankList = new SolvedCountPlayerRankList();
 	var players = [];
 	var solvedcount = [];
-	solvedcountplayerrankList.set('epochcode', solvingpuzzlelist.epochcode);
+	solvedcountplayerrankList.set('epochcode', epochdata);
 	solvedcountplayerrankList.set('players', players);
 	solvedcountplayerrankList.set('solvedcount', solvedcount);
 	return solvedcountplayerrankList.save();
 };
 
-function initHardPuzzleRankList(solvedcountplayerrankList){
+function initHardPuzzleRankList(epochdata){
 	var hardpuzzleranklist = new HardPuzzleRankList();
 	var puzzles = [];
 	var playedtimes = [];
 	var solvedtimes = [];
-	hardpuzzleranklist.set('epochcode', solvedcountplayerrankList.epochcode);
+	hardpuzzleranklist.set('epochcode', epochdata);
 	hardpuzzleranklist.set('puzzles', puzzles);
 	hardpuzzleranklist.set('playedtimes', playedtimes);
 	hardpuzzleranklist.set('solvedtimes', solvedtimes);
 	return hardpuzzleranklist.save();
 };
 
-function initLevelDatas(hardpuzzleranklist){
+function initLevelDatas(epochdata){
 	var promises = [];
 	for(var i = 1; i <= 5; i++)
 	{
 			const leveldata = require("../../levels/s" + i + ".json");
-			leveldata.epochcode = hardpuzzleranklist.epochcode;
+			leveldata.epochcode = epochdata;
 			leveldata.hero = null;
 			leveldata.playedtimes = 0;
 			leveldata.solvedtimes = 0;
