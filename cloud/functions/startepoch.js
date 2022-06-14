@@ -82,7 +82,7 @@ function initEpochData(){
 			promises.push(obj.save());
 		}
 		return Parse.all(promises);
-	}).then({
+	}).then(()=>{
 		var edata = new EpochData();
 		edata.set('endtime', Date());
 		edata.set('isend', false);
