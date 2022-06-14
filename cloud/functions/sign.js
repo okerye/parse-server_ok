@@ -6,26 +6,33 @@ Parse.Cloud.define("getausername", () => {
 	var username = null;
 	var password = null;
 	query.first().then((seed)=>{
-		var oseed = seed.get('seed');
-		const milliseconds = Date().getMilliseconds();
-		console.log("seed milliseconds:" + milliseconds);
-		var hash = md5(oseed + milliseconds);
-		seed.set('seed',hash);
-		seed.increment('count', 1);
-		seed.save();
-		username = md5(hash+'name');
-		password = md5(hash+'pwsd');
+		if(seed === undefined)
+		{
+			var signupseed = new SignUpSeed();
+			var oseed = "helloworld2048";
+			const milliseconds = Date().getMilliseconds();
+			console.log("seed milliseconds:" + milliseconds);
+			var hash = md5(oseed + milliseconds);
+			signupseed.set('seed',hash);
+			signupseed.set('count', 1);
+			signupseed.save();
+			username = md5(hash+'name');
+			password = md5(hash+'pwsd');
+		}
+		else
+		{
+			var oseed = seed.get('seed');
+			const milliseconds = Date().getMilliseconds();
+			console.log("seed milliseconds:" + milliseconds);
+			var hash = md5(oseed + milliseconds);
+			seed.set('seed',hash);
+			seed.increment('count', 1);
+			seed.save();
+			username = md5(hash+'name');
+			password = md5(hash+'pwsd');
+		}	
 	}, (err)=>{
-		var signupseed = new SignUpSeed();
-		var oseed = "helloworld2048";
-		const milliseconds = Date().getMilliseconds();
-		console.log("seed milliseconds:" + milliseconds);
-		var hash = md5(oseed + milliseconds);
-		seed.set('seed',hash);
-		signupseed.set('count', 1);
-		signupseed.save();
-		username = md5(hash+'name');
-		password = md5(hash+'pwsd');
+		
 	});
 	return [username, password];
 });
