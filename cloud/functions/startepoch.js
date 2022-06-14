@@ -8,10 +8,6 @@
 //7. create solved-count player rank list
 //8. create hard-puzzle rank list
 
-// var testepochdata = {
-// 	"epochcode": "e202201",
-// 	"endtime": ""
-// };
 
 
 var EpochData = Parse.Object.extend("EpochData");
@@ -69,79 +65,29 @@ Parse.Cloud.define("startepoch", () => {
 	});
 	});
 
-	// var edata = new EpochData();
-	// edata.epochcode = null;
-	// edata.endtime = new Date();
-	// edata.save().then(function(epochdata){
-	// 	var promises = []
-	// 	for(var i = 1; i <= 5; i++)
-	// 	{
-	// 			const leveldata = require("../../levels/s" + i + ".json");
-	// 			leveldata.epochcode = epochdata.id;
-	// 			leveldata.hero = "";
-	// 			leveldata.playedtimes = 0;
-	// 			leveldata.solvedtimes = 0;
 
-	// 			var leveld = new LevelData();
-	// 			promises.push(leveld.save(leveldata));
-	// 	};
-	// 	return Promise.all(promises);
-	// });
 	return 'Done';
 
-
-  //var promise = new Parse.Promise();		
-	//console.log("Creating teams...");		
-	// var promises = [];
-
-	// const leveldata = require("../../levels/s1.json");
-
-	// var leveld = new LevelData();
-	// 	leveld.save(leveldata);
-
-	// for (var i = 0; i < leveldata.length; i++) {
-	// 	var item = leveldata[i];
-		
-	// 	var leveld = new LevelData();
-	// 	leveld.save(item);
-	// 	//TEAMS_MAP[item.code] = team;
-	// };
-	
-	
-	// Parse.Promise.when(promises).then(function() {
-	// 	console.log("All teams created");
-	// 	//promise.resolve();		
-	// }, function error(err) {
-	// 	console.error(err);
-	// });	
-
-	// loadJSON( TEAMS_JSON_URL, function( data ) {
- //    for (var i = 0; i < data.length; i++) {
-	// 		var item = data[i];
-	// 		console.log("Saving team " + item.name);
-	// 		if (item.squadMarketValue) {
- //  			item.squadMarketValue = parseFloat(item.squadMarketValue.slice(0, -1).replace(',',''));				
-	// 		}
-	// 		var team = new Team();
-	// 		promises.push(team.save(item));
-	// 		TEAMS_MAP[item.code] = team;
-	// 	};
-		
-		
-	// 	Parse.Promise.when(promises).then(function() {
-	// 		console.log("All teams created");
-	// 		//promise.resolve();		
-	// 	}, function error(err) {
-	// 		console.error(err);
-	// 	});			
-	// });
 });
 
 function initEpochData(){
-
+	const query = new Parse.Query(EpochData);
+	query.equalTo("isend", false);
+	var promises = []
+	return query.find().then((results)=>{
+		for(let i = 0; i  results.length; i++){
+			const obj = results[i];
+			obj.set('isend', true);
+			obj.set('endtime', Date());
+			promises.push(obj.save());
+		}
+		return Parse.all(promises);
+	}).then({
 		var edata = new EpochData();
 		edata.set('endtime', Date());
+		edata.set('isend', false);
 		return edata.save();
+	});
 };
 
 function initSolvedPuzzleList(edata){
