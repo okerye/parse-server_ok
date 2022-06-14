@@ -10,7 +10,8 @@ Parse.Cloud.define("getausername", () => {
 		{
 			var signupseed = new SignUpSeed();
 			var oseed = "helloworld2048";
-			const milliseconds = Date().getMilliseconds();
+			var date = new Date();
+			const milliseconds = date.getMilliseconds();
 			console.log("seed milliseconds:" + milliseconds);
 			var hash = md5(oseed + milliseconds);
 			signupseed.set('seed',hash);
@@ -22,7 +23,8 @@ Parse.Cloud.define("getausername", () => {
 		else
 		{
 			var oseed = seed.get('seed');
-			const milliseconds = Date().getMilliseconds();
+			var date = new Date();
+			const milliseconds = date.getMilliseconds();
 			console.log("seed milliseconds:" + milliseconds);
 			var hash = md5(oseed + milliseconds);
 			seed.set('seed',hash);
