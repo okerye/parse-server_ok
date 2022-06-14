@@ -33,8 +33,7 @@ Parse.Cloud.define("getausername", () => {
 			username = md5(hash+'name');
 			password = md5(hash+'pwsd');
 		}	
-	}, (err)=>{
-		
+		return [username, password];
 	});
-	return [username, password];
+	
 });
