@@ -75,7 +75,7 @@ function initEpochData(){
 	query.equalTo("isend", false);
 	var promises = []
 	return query.find().then((results)=>{
-		for(let i = 0; i  results.length; i++){
+		for(let i = 0; i < results.length; i++){
 			const obj = results[i];
 			obj.set('isend', true);
 			obj.set('endtime', Date());
