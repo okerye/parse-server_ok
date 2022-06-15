@@ -1,11 +1,11 @@
 md5 = require('js-md5');
 
 var SignUpSeed = Parse.Object.extend("SignUpSeed");
-Parse.Cloud.define("getausername", () => {
+Parse.Cloud.define("getausername", async() => {
 	const query = new Parse.Query(SignUpSeed);
 	var username;
 	var password;
-	query.first().then((seed)=>{
+	await query.first().then((seed)=>{
 		if(seed === undefined)
 		{
 			var signupseed = new SignUpSeed();
@@ -33,7 +33,7 @@ Parse.Cloud.define("getausername", () => {
 			username = md5(hash+'name');
 			password = md5(hash+'pwsd');
 		}	
-		return [username, password];
+		
 	});
-	
+	return [username, password];
 });
