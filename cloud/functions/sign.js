@@ -35,5 +35,8 @@ Parse.Cloud.define("getausername", async() => {
 		}	
 		
 	});
-	return [username, password];
+	var resultjson = {};
+	resultjson.username = username;
+	resultjson.password = password;
+	return resultjson;
 });
