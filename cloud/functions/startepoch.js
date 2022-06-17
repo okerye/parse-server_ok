@@ -61,6 +61,7 @@ Parse.Cloud.define("startepoch", () => {
 		var epochdata = puzzlelist.get("epochcode");
 		await epochdata.fetch();
 	  epochdata.set('UnsolvedPuzzleList', puzzlelist);
+	  epochdata.set('totalunsolved', puzzlelist.get('puzzlecount'));
 	  return epochdata.save();
 	});
 	});
@@ -86,6 +87,12 @@ function initEpochData(){
 		var edata = new EpochData();
 		edata.set('endtime', Date());
 		edata.set('isend', false);
+		edata.set('lastday', Date());
+		edata.set('totalsolved', 0);
+		edata.set('totalunsolved', 0);
+		edata.set('totalsolvedplayercount', 0);
+		edata.set('lastdaysolved', 0);
+		edata.set('lastdaysolvedplayercount', 0);
 		return edata.save();
 	});
 };
