@@ -5,6 +5,7 @@ Parse.Cloud.define("getpuzzle", async(requestpara) => {
 	var playerid = requestpara.user.id;
 	var puzzletype = requestpara.params.para1;
 	var puzzleid = requestpara.params.para2;
+	var playerepochid = requestpara.params.para3;
 	console.log("Player Id: " + playerid);
 	if(puzzletype == "Challenge")
 	{
