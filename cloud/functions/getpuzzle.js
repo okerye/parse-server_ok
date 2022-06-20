@@ -14,7 +14,7 @@ Parse.Cloud.define("getpuzzle", async(requestpara) => {
 	console.log("Player Id: " + playerid);
 
 	const player = await queryplayer.get(playerid);
-	const epochcode = await player.get(playerEpochId);
+	const epochcode = await player.get("playerEpochId");
 
 	console.log("epoch Id: " + epochcode);
 
