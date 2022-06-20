@@ -23,7 +23,7 @@ Parse.Cloud.define("getpuzzle", async(requestpara) => {
 	await puzzlelistid.fetch();
 	const puzzlelistlength = puzzlelistid.get("puzzlecount");
 	const puzzlelist = puzzlelistid.get("puzzles");
-	console.log("puzzlelistlength: " + puzzlelistlength);
+	console.log("puzzlelist: " + puzzlelist);
 
 	if(puzzletype == "Challenge")
 	{
