@@ -1,8 +1,23 @@
 var LevelData = Parse.Object.extend("LevelData");
+var UnsolvedPuzzleList = Parse.Object.extend("UnsolvedPuzzleList");
 Parse.Cloud.define("getpuzzle", async(requestpara) => {
 	const query = new Parse.Query(LevelData);
+	var playerid = requestpara.playerid;
 	var puzzletype = requestpara.params.para1;
 	var puzzleid = requestpara.params.para2;
+	if(puzzletype == "Challenge")
+	{
+		const querypuzzlelist = new Parse.Query(UnsolvedPuzzleList);
+
+	} 
+	else if(puzzletype == "Practice")
+	{
+
+	}
+	else if(puzzleid != "")
+	{
+
+	}
 	// await query.first().then((seed)=>{
 	// 	if(seed === undefined)
 	// 	{
