@@ -53,14 +53,14 @@ Parse.Cloud.define("getpuzzle", async(requestpara) => {
 	}
 	//console.log("puzzleidchosen Id: " + puzzleidchosen);
 	const puzzledataobj = puzzleidchosen;//await querylevel.get(puzzleidchosen);
-	const puzzledata = await puzzledataobj.get("elements");
+	const puzzledata =  puzzledataobj.elements;
 	console.log("puzzledata: " + puzzledata);
-	const puzzlewidth = await puzzledataobj.get("level_w");
-	const puzzleheight = await puzzledataobj.get("level_h");
-	const puzzlesinpos = await puzzledataobj.get("singuility_pos");
-	const puzzlesolvedtimes = await puzzledataobj.get("solvedtimes");
-	const puzzleplayedtimes = await puzzledataobj.get("playedtimes");
-	const puzzlehero = await puzzledataobj.get("hero");
+	const puzzlewidth =  puzzledataobj.level_w;
+	const puzzleheight =  puzzledataobj.level_h;
+	const puzzlesinpos =  puzzledataobj.singuility_pos;
+	const puzzlesolvedtimes =  puzzledataobj.solvedtimes;
+	const puzzleplayedtimes =  puzzledataobj.playedtimes;
+	const puzzlehero =  puzzledataobj.hero;
 
 	//generateplayrecord(puzzledataobj, player);
 	//updatepuzzledata(puzzleidchosen);
