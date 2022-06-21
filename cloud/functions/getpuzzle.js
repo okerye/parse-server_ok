@@ -55,6 +55,8 @@ Parse.Cloud.define("getpuzzle", async(requestpara) => {
 	const puzzlesolvedtimes = await puzzledataobj.get("solvedtimes");
 	const puzzleplayedtimes = await puzzledataobj.get("playedtimes");
 	const puzzlehero = await puzzledataobj.get("hero");
+
+	generateplayrecord(puzzledataobj, player);
 	var resultjson = {};
 	 resultjson.puzzledata = puzzledata;	 
 	 resultjson.puzzlewidth = puzzlewidth;
@@ -69,4 +71,57 @@ Parse.Cloud.define("getpuzzle", async(requestpara) => {
 
 function getRandomInt(max) {
   return Math.floor(Math.random() * max);
+}
+var PlayeRecord = Parse.Object.extend("PlayeRecord");
+var DailyChallengePuzzlelist = Parse.Object.extend("DailyChallengePuzzlelist");
+function generateplayrecord(puzzleid, playerid)
+{
+	var playrecord = new PlayeRecord();
+	playrecord.set("puzzleid", puzzleid);
+	playrecord.set("playerid", playerid);
+	playrecord.set("solution", "");
+	const querydailychallengelist = new Parse.Query(DailyChallengePuzzlelist);
+	var today = new Date().toLocaleDateString();
+	querydailychallengelist.equalTo("today", today);
+	const dailychallengelist = await querydailychallengelist.first();
+	if(dailychallengelist == null)
+	{
+		dailychallengelist = await createDailyChallengePuzzlelist(today);
+	}
+
+	playrecord.set("dailylist", dailychallengelist);
+	await playrecord.save();
+	updateDailyChallengPuzzleList(dailychallengelist, playrecord);
+}
+
+function updatepuzzledata()
+{
+
+}
+
+function updateSolvingPuzzleList()
+{}
+
+function createDailyChallengePuzzlelist(today)
+{
+	var dailychallengepuzzlelist = new DailyChallengePuzzlelist();
+
+	dailychallengepuzzlelist.set("today", today);
+	dailychallengepuzzlelist.set("challengetimes", 0);
+	dailychallengepuzzlelist.set("challengesucceeded", 0);
+	dailychallengepuzzlelist.set("challengesucceededplayers", 0);
+	return dailychallengepuzzlelist.save();
+}
+
+function updateDailyChallengPuzzleList(dailychallengelist, playrecord){
+
+}
+
+function updatePlayerInfo()
+{
+
+}
+
+function updateHardPuzzleList(){
+
 }
