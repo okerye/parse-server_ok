@@ -57,6 +57,10 @@ Parse.Cloud.define("getpuzzle", async(requestpara) => {
 	const puzzlehero = await puzzledataobj.get("hero");
 
 	generateplayrecord(puzzledataobj, player);
+	updatepuzzledata(puzzleidchosen);
+	const solvingpuzzlelistid = await epochdata.get("SolvingPuzzleList");
+	updateSolvingPuzzleList(solvingpuzzlelistid, puzzledataobj, player);
+	updatePlayerInfo(puzzletype, player);
 	var resultjson = {};
 	 resultjson.puzzledata = puzzledata;	 
 	 resultjson.puzzlewidth = puzzlewidth;
@@ -94,13 +98,28 @@ async function generateplayrecord(puzzleid, playerid)
 	updateDailyChallengPuzzleList(dailychallengelist, playrecord);
 }
 
-function updatepuzzledata()
+function updatepuzzledata(puzzleid)
 {
-
+	const puzzledataobj = await querylevel.get(puzzleid);
+	puzzledataobj.increment("playedtimes");
+	puzzledataobj.save();
 }
 
-function updateSolvingPuzzleList()
-{}
+async function updateSolvingPuzzleList(solvingpuzzlelist, puzzleid, playerid)
+{
+	await solvingpuzzlelist.fetch(); 
+	var puzzles = await solvingpuzzlelist.relation("puzzles");
+	puzzles.add(puzzleid);
+	//solvingpuzzlelist.set("puzzles", puzzles);
+	var players = await solvingpuzzlelist.relation("players");
+	players.add(playerid);
+	//solvingpuzzlelist.set("players", players);
+	var endtime = await solvingpuzzlelist.relation("solvingendtime");
+	endtime.add(new Date(new Date() + 10*60000));
+	//solvingpuzzlelist.set("endtime", endtime);
+	solvingpuzzlelist.increment("puzzlecount");
+	return solvingpuzzlelist.save();
+}
 
 function createDailyChallengePuzzlelist(today)
 {
@@ -113,15 +132,40 @@ function createDailyChallengePuzzlelist(today)
 	return dailychallengepuzzlelist.save();
 }
 
-function updateDailyChallengPuzzleList(dailychallengelist, playrecord){
-
+async function updateDailyChallengPuzzleList(dailychallengelist, playrecord){
+	await dailychallengelist.fetch();
+	var dailychallenges = dailychallengelist.relation("dailychallengelist");
+	dailychallenges.add(playrecord);
+	dailychallengelist.increment("challengetimes");
+	return dailychallengelist.save();
 }
 
-function updatePlayerInfo()
+async function updatePlayerInfo(puzzletype, player)
 {
-
+	await player.fetch();
+	if(puzzletype == "Challenge")
+	{
+		player.increment("challengetimes");
+	}
+	else if(puzzletype == "Practice")
+	{ 
+		player.increment("practicetimes");
+	}
+	return player.save();
 }
 
-function updateHardPuzzleList(){
-
+async function updateHardPuzzleRandList(hardpuzzlerandlist, puzzle){
+	await hardpuzzlerandlist.fetch(); 
+	var puzzles = await hardpuzzlerandlist.get("puzzles");
+	puzzles.add(puzzle);
+	hardpuzzlerandlist.set("puzzles", puzzles);
+	var playedtimes = await hardpuzzlerandlist.get("playedtimes");
+	playedtime = await puzzle.get("playedtimes");
+	playedtimes.add(playedtime);	
+	hardpuzzlerandlist.set("playedtimes", playedtimes);
+	var solvedtimes = await hardpuzzlerandlist.get("solvedtimes");
+	solvedtime = await puzzle.get("solvedtimes");
+	solvedtimes.add(solvedtime);
+	hardpuzzlerandlist.set("solvedtimes", solvedtimes);
+	return solvingpuzzlelist.save();
 }
