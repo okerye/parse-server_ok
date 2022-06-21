@@ -108,7 +108,7 @@ async function generateplayrecord(puzzleid, playerid)
 async function updatepuzzledata(puzzleid)
 {
 	const querylevel = new Parse.Query(LevelData);
-	const puzzledataobj = await querylevel.get(puzzleid);
+	const puzzledataobj = puzzleid;//await querylevel.get(puzzleid);
 	puzzledataobj.increment("playedtimes");
 	puzzledataobj.save();
 }
