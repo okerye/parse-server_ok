@@ -25,7 +25,9 @@ Parse.Cloud.define("getpuzzle", async(requestpara) => {
 	const puzzlelist = puzzlelistid.get("puzzles");
 	const puzzleidchosen = puzzlelist[getRandomInt(puzzlelistlength)];
 	console.log("puzzleidchosen Id: " + puzzleidchosen);
-	console.log("puzzlelist: " + puzzlelist);
+	const puzzledataobj = await querylevel.get(puzzleidchosen);
+	const puzzledata = await puzzledataobj.get("elements");
+	console.log("puzzledata: " + puzzledata);
 
 	if(puzzletype == "Challenge")
 	{
