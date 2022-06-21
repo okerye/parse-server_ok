@@ -49,39 +49,20 @@ Parse.Cloud.define("getpuzzle", async(requestpara) => {
 	const puzzledataobj = await querylevel.get(puzzleidchosen);
 	const puzzledata = await puzzledataobj.get("elements");
 	console.log("puzzledata: " + puzzledata);
-	// await query.first().then((seed)=>{
-	// 	if(seed === undefined)
-	// 	{
-	// 		var signupseed = new SignUpSeed();
-	// 		var oseed = "helloworld2048";
-	// 		var date = new Date();
-	// 		const milliseconds = date.getMilliseconds();
-	// 		console.log("seed milliseconds:" + milliseconds);
-	// 		var hash = md5(oseed + milliseconds);
-	// 		signupseed.set('seed',hash);
-	// 		signupseed.set('count', 1);
-	// 		signupseed.save();
-	// 		username = md5(hash+'name');
-	// 		password = md5(hash+'pwsd');
-	// 	}
-	// 	else
-	// 	{
-	// 		var oseed = seed.get('seed');
-	// 		var date = new Date();
-	// 		const milliseconds = date.getMilliseconds();
-	// 		console.log("seed milliseconds:" + milliseconds);
-	// 		var hash = md5(oseed + milliseconds);
-	// 		seed.set('seed',hash);
-	// 		seed.increment('count', 1);
-	// 		seed.save();
-	// 		username = md5(hash+'name');
-	// 		password = md5(hash+'pwsd');
-	// 	}	
-		
-	// });
+	const puzzlewidth = await puzzledataobj.get("level_w");
+	const puzzleheight = await puzzledataobj.get("level_h");
+	const puzzlesinpos = await puzzledataobj.get("singuility_pos");
+	const puzzlesolvedtimes = await puzzledataobj.get("solvedtimes");
+	const puzzleplayedtimes = await puzzledataobj.get("playedtimes");
+	const puzzlehero = await puzzledataobj.get("hero");
 	var resultjson = {};
-	// resultjson.username = username;
-	// resultjson.password = password;
+	 resultjson.puzzledata = puzzledata;	 
+	 resultjson.puzzlewidth = puzzlewidth;
+	 resultjson.puzzleheight = puzzleheight;
+	 resultjson.puzzlesinpos = puzzlesinpos;
+	 resultjson.puzzlesolvedtimes = puzzlesolvedtimes;
+	 resultjson.puzzleplayedtimes = puzzleplayedtimes;
+	 resultjson.puzzlehero = puzzlehero;
 	return resultjson;
 });
 
