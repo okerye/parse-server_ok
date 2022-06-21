@@ -38,6 +38,7 @@ Parse.Cloud.define("getpuzzle", async(requestpara) => {
 		querylevel.equalTo("epochcode", epochcode);
 		querylevel.equalTo("state", 1);//1: solved puzzle
 		const puzzleidchosen = await querylevel.first();
+		puzzleidchosen.fetch();
 		// //const querypuzzlelist = new Parse.Query(SolvedPuzzleList);
 		// const puzzlelistid = await epochdata.get("SolvedPuzzleList");
 		// console.log("puzzlelistid Id: " + puzzlelistid);
