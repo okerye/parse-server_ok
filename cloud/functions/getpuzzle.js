@@ -98,7 +98,7 @@ async function generateplayrecord(puzzleid, playerid)
 	updateDailyChallengPuzzleList(dailychallengelist, playrecord);
 }
 
-function updatepuzzledata(puzzleid)
+async function updatepuzzledata(puzzleid)
 {
 	const puzzledataobj = await querylevel.get(puzzleid);
 	puzzledataobj.increment("playedtimes");
