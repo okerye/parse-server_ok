@@ -108,18 +108,18 @@ async function updatepuzzledata(puzzleid)
 
 async function updateSolvingPuzzleList(solvingpuzzlelist, puzzleid, playerid)
 {
-	await solvingpuzzlelist.fetch(); 
-	var puzzles = await solvingpuzzlelist.relation("puzzles");
-	puzzles.add(puzzleid);
-	//solvingpuzzlelist.set("puzzles", puzzles);
-	var players = await solvingpuzzlelist.relation("players");
-	players.add(playerid);
-	//solvingpuzzlelist.set("players", players);
-	var endtime = await solvingpuzzlelist.relation("solvingendtime");
-	endtime.add(new Date(new Date() + 10*60000));
-	//solvingpuzzlelist.set("endtime", endtime);
-	solvingpuzzlelist.increment("puzzlecount");
-	return solvingpuzzlelist.save();
+	// await solvingpuzzlelist.fetch(); 
+	// var puzzles = await solvingpuzzlelist.relation("puzzles");
+	// puzzles.add(puzzleid);
+	// //solvingpuzzlelist.set("puzzles", puzzles);
+	// var players = await solvingpuzzlelist.relation("players");
+	// players.add(playerid);
+	// //solvingpuzzlelist.set("players", players);
+	// var endtime = await solvingpuzzlelist.relation("solvingendtime");
+	// endtime.add(new Date(new Date() + 10*60000));
+	// //solvingpuzzlelist.set("endtime", endtime);
+	// solvingpuzzlelist.increment("puzzlecount");
+	// return solvingpuzzlelist.save();
 }
 
 function createDailyChallengePuzzlelist(today)

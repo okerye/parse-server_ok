@@ -30,31 +30,33 @@ Parse.Cloud.define("startepoch", () => {
 	  return epochdata.save();
 	})}).then((epochdata)=>{
 
-	return initSolvingPuzzleList(epochdata).then(async(solvingpuzzlelist)=>{
+	// return initSolvingPuzzleList(epochdata).then(async(solvingpuzzlelist)=>{
 
-		var epochdata = solvingpuzzlelist.get("epochcode");
-		await epochdata.fetch();
-	  epochdata.set('SolvingPuzzleList', solvingpuzzlelist);
-	  return epochdata.save();
+	// 	var epochdata = solvingpuzzlelist.get("epochcode");
+	// 	await epochdata.fetch();
+	//   epochdata.set('SolvingPuzzleList', solvingpuzzlelist);
+	//   return epochdata.save();
 
-	})}).then((epochdata)=>{
+	// })}).then((epochdata)=>{
 
-	return initSolvedCountPlayerRankList(epochdata).then(async(solvedcountplayerranklist)=>{
+	// return initSolvedCountPlayerRankList(epochdata).then(async(solvedcountplayerranklist)=>{
 
-		var epochdata = solvedcountplayerranklist.get("epochcode");
-		await epochdata.fetch();
-	  epochdata.set('SolvedCountPlayerRankList', solvedcountplayerranklist);
-	  return epochdata.save();
-	})}).then((epochdata)=>{
+	// 	var epochdata = solvedcountplayerranklist.get("epochcode");
+	// 	await epochdata.fetch();
+	//   epochdata.set('SolvedCountPlayerRankList', solvedcountplayerranklist);
+	//   return epochdata.save();
+	// })}).then((epochdata)=>{
 
-	return initHardPuzzleRankList(epochdata).then(async(hardpuzzleranklist)=>{
+	// return initHardPuzzleRankList(epochdata).then(async(hardpuzzleranklist)=>{
 
-		var epochdata = hardpuzzleranklist.get("epochcode");
-		await epochdata.fetch();
-	  epochdata.set('HardPuzzleRankList', hardpuzzleranklist);
-	  return epochdata.save();
-	})}).then((epochdata)=>{
+	// 	var epochdata = hardpuzzleranklist.get("epochcode");
+	// 	await epochdata.fetch();
+	//   epochdata.set('HardPuzzleRankList', hardpuzzleranklist);
+	//   return epochdata.save();
+	// })}).then((epochdata)=>{
+
 		return initLevelDatas(epochdata);
+		
 	}).then((puzzlelist)=>{
 		return initUnsolvedPuzzleList(puzzlelist).then(async(puzzlelist)=>{
 
@@ -99,53 +101,51 @@ function initEpochData(){
 
 function initSolvedPuzzleList(edata){
 	var solvedpuzzlelist = new SolvedPuzzleList();
-	var puzzles = [];
+	var puzzles = null;//this is a parse relation, use add/remove to maintain. should use add always as logic design.
 	var puzzlecount = 0;
 	solvedpuzzlelist.set('puzzles', puzzles);
 	solvedpuzzlelist.set('puzzlecount', puzzlecount);
 	solvedpuzzlelist.set('epochcode', edata);
-	var players = [];
+	var players = null;//this is a parse relation, use add/remove to maintain. should use add always as logic design.
 	var playercount = 0;
 	solvedpuzzlelist.set('players', players);
 	solvedpuzzlelist.set('playercount', playercount);
 	return solvedpuzzlelist.save();
 };
 
-function initSolvingPuzzleList(epochdata){
-	var solvingpuzzlelist = new SolvingPuzzleList();
-	var puzzles = [];
-	var players = [];
-	var solvingendtime = [];
-	solvingpuzzlelist.set('epochcode', epochdata);
-	solvingpuzzlelist.set('puzzles', puzzles);
-	solvingpuzzlelist.set('players', players);
-	solvingpuzzlelist.set('solvingendtime', solvingendtime);
-	var puzzlecount = 0;
-	solvingpuzzlelist.set('puzzlecount', puzzlecount);
-	return solvingpuzzlelist.save();
-};
+// function initSolvingPuzzleList(epochdata){
+// 	var solvingpuzzlelist = new SolvingPuzzleList();
+// 	var puzzle = null;
+// 	var player = null;
+// 	var solvingendtime = null;
+// 	solvingpuzzlelist.set('epochcode', epochdata);
+// 	solvingpuzzlelist.set('puzzle', puzzle);
+// 	solvingpuzzlelist.set('player', player);
+// 	solvingpuzzlelist.set('solvingendtime', solvingendtime);
+// 	return solvingpuzzlelist.save();
+// };
 
-function initSolvedCountPlayerRankList(epochdata){
-	var solvedcountplayerrankList = new SolvedCountPlayerRankList();
-	var players = [];
-	var solvedcount = [];
-	solvedcountplayerrankList.set('epochcode', epochdata);
-	solvedcountplayerrankList.set('players', players);
-	solvedcountplayerrankList.set('solvedcount', solvedcount);
-	return solvedcountplayerrankList.save();
-};
+// function initSolvedCountPlayerRankList(epochdata){
+// 	var solvedcountplayerrankList = new SolvedCountPlayerRankList();
+// 	var player = null;
+// 	var solvedcount = 0;
+// 	solvedcountplayerrankList.set('epochcode', epochdata);
+// 	solvedcountplayerrankList.set('players', players);
+// 	solvedcountplayerrankList.set('solvedcount', solvedcount);
+// 	return solvedcountplayerrankList.save();
+// };
 
-function initHardPuzzleRankList(epochdata){
-	var hardpuzzleranklist = new HardPuzzleRankList();
-	var puzzles = [];
-	var playedtimes = [];
-	var solvedtimes = [];
-	hardpuzzleranklist.set('epochcode', epochdata);
-	hardpuzzleranklist.set('puzzles', puzzles);
-	hardpuzzleranklist.set('playedtimes', playedtimes);
-	hardpuzzleranklist.set('solvedtimes', solvedtimes);
-	return hardpuzzleranklist.save();
-};
+// function initHardPuzzleRankList(epochdata){
+// 	var hardpuzzleranklist = new HardPuzzleRankList();
+// 	var puzzle = null;
+// 	var playedtimes = 0;
+// 	var solvedtimes = 0;
+// 	hardpuzzleranklist.set('epochcode', epochdata);
+// 	hardpuzzleranklist.set('puzzles', puzzles);
+// 	hardpuzzleranklist.set('playedtimes', playedtimes);
+// 	hardpuzzleranklist.set('solvedtimes', solvedtimes);
+// 	return hardpuzzleranklist.save();
+// };
 
 function initLevelDatas(epochdata){
 	var promises = [];
