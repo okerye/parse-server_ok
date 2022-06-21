@@ -23,6 +23,8 @@ Parse.Cloud.define("getpuzzle", async(requestpara) => {
 	await puzzlelistid.fetch();
 	const puzzlelistlength = puzzlelistid.get("puzzlecount");
 	const puzzlelist = puzzlelistid.get("puzzles");
+	const puzzleidchosen = puzzlelist[getRandomInt(puzzlelistlength)];
+	console.log("puzzleidchosen Id: " + puzzleidchosen);
 	console.log("puzzlelist: " + puzzlelist);
 
 	if(puzzletype == "Challenge")
@@ -74,3 +76,8 @@ Parse.Cloud.define("getpuzzle", async(requestpara) => {
 	// resultjson.password = password;
 	return resultjson;
 });
+
+
+function getRandomInt(max) {
+  return Math.floor(Math.random() * max);
+}
