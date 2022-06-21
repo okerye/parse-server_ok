@@ -51,7 +51,7 @@ Parse.Cloud.define("getpuzzle", async(requestpara) => {
 		const querypuzzle = new Parse.Query(LevelData);
 		puzzleidchosen = puzzleid;
 	}
-	console.log("puzzleidchosen Id: " + puzzleidchosen);
+	console.log("puzzleidchosen Id: " + puzzleidchosen.id);
 	const puzzledataobj = await querylevel.get(puzzleidchosen);
 	const puzzledata = await puzzledataobj.get("elements");
 	console.log("puzzledata: " + puzzledata);
