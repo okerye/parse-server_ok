@@ -83,7 +83,7 @@ async function generateplayrecord(puzzleid, playerid)
 	const querydailychallengelist = new Parse.Query(DailyChallengePuzzlelist);
 	var today = new Date().toLocaleDateString();
 	querydailychallengelist.equalTo("today", today);
-	const dailychallengelist = await querydailychallengelist.first();
+	var dailychallengelist = await querydailychallengelist.first();
 	if(dailychallengelist == null)
 	{
 		dailychallengelist = await createDailyChallengePuzzlelist(today);
