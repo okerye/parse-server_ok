@@ -18,31 +18,37 @@ Parse.Cloud.define("getpuzzle", async(requestpara) => {
 
 	console.log("epoch Id: " + epochcode);
 	epochdata = await queryepochdata.get(epochcode);
-	const puzzlelistid = await epochdata.get("UnsolvedPuzzleList");
-	console.log("puzzlelistid Id: " + puzzlelistid);
-	await puzzlelistid.fetch();
-	const puzzlelistlength = puzzlelistid.get("puzzlecount");
-	const puzzlelist = puzzlelistid.get("puzzles");
-	const puzzleidchosen = puzzlelist[getRandomInt(puzzlelistlength)];
-	console.log("puzzleidchosen Id: " + puzzleidchosen);
-	const puzzledataobj = await querylevel.get(puzzleidchosen);
-	const puzzledata = await puzzledataobj.get("elements");
-	console.log("puzzledata: " + puzzledata);
-
+	
+	
+	var puzzleidchosen;
 	if(puzzletype == "Challenge")
 	{
-		const querypuzzlelist = new Parse.Query(UnsolvedPuzzleList);
-
+		const puzzlelistid = await epochdata.get("UnsolvedPuzzleList");
+		console.log("puzzlelistid Id: " + puzzlelistid);
+		await puzzlelistid.fetch();
+		const puzzlelistlength = puzzlelistid.get("puzzlecount");
+		const puzzlelist = puzzlelistid.get("puzzles");
+		puzzleidchosen = puzzlelist[getRandomInt(puzzlelistlength)];
 	} 
 	else if(puzzletype == "Practice")
 	{
-		const querypuzzlelist = new Parse.Query(SolvedPuzzleList);
+		//const querypuzzlelist = new Parse.Query(SolvedPuzzleList);
+		const puzzlelistid = await epochdata.get("SolvedPuzzleList");
+		console.log("puzzlelistid Id: " + puzzlelistid);
+		await puzzlelistid.fetch();
+		const puzzlelistlength = puzzlelistid.get("puzzlecount");
+		const puzzlelist = puzzlelistid.get("puzzles");
+		puzzleidchosen = puzzlelist[getRandomInt(puzzlelistlength)];
 	}
 	else if(puzzleid != "")
 	{
 		const querypuzzle = new Parse.Query(LevelData);
+		puzzleidchosen = puzzleid;
 	}
-
+	console.log("puzzleidchosen Id: " + puzzleidchosen);
+	const puzzledataobj = await querylevel.get(puzzleidchosen);
+	const puzzledata = await puzzledataobj.get("elements");
+	console.log("puzzledata: " + puzzledata);
 	// await query.first().then((seed)=>{
 	// 	if(seed === undefined)
 	// 	{
