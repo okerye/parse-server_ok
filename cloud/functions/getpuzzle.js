@@ -74,7 +74,7 @@ function getRandomInt(max) {
 }
 var PlayeRecord = Parse.Object.extend("PlayeRecord");
 var DailyChallengePuzzlelist = Parse.Object.extend("DailyChallengePuzzlelist");
-function generateplayrecord(puzzleid, playerid)
+async function generateplayrecord(puzzleid, playerid)
 {
 	var playrecord = new PlayeRecord();
 	playrecord.set("puzzleid", puzzleid);
