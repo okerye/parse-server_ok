@@ -22,13 +22,13 @@ var HardPuzzleRankList = Parse.Object.extend("HardPuzzleRankList");
 Parse.Cloud.define("startepoch", () => {	
 	initEpochData().then((epochdata)=>{
 
-	return initSolvedPuzzleList(epochdata).then(async(solvedpuzzlelist)=>{
+	// return initSolvedPuzzleList(epochdata).then(async(solvedpuzzlelist)=>{
 
-		var epochdata = solvedpuzzlelist.get("epochcode");
-		await epochdata.fetch();
-	  epochdata.set('SolvedPuzzleList', solvedpuzzlelist);
-	  return epochdata.save();
-	})}).then((epochdata)=>{
+	// 	var epochdata = solvedpuzzlelist.get("epochcode");
+	// 	await epochdata.fetch();
+	//   epochdata.set('SolvedPuzzleList', solvedpuzzlelist);
+	//   return epochdata.save();
+	// })}).then((epochdata)=>{
 
 	// return initSolvingPuzzleList(epochdata).then(async(solvingpuzzlelist)=>{
 
@@ -57,15 +57,15 @@ Parse.Cloud.define("startepoch", () => {
 
 		return initLevelDatas(epochdata);
 		
-	}).then((puzzlelist)=>{
-		return initUnsolvedPuzzleList(puzzlelist).then(async(puzzlelist)=>{
+	// }).then((puzzlelist)=>{
+	// 	return initUnsolvedPuzzleList(puzzlelist).then(async(puzzlelist)=>{
 
-		var epochdata = puzzlelist.get("epochcode");
-		await epochdata.fetch();
-	  epochdata.set('UnsolvedPuzzleList', puzzlelist);
-	  epochdata.set('totalunsolved', puzzlelist.get('puzzlecount'));
-	  return epochdata.save();
-	});
+	// 	var epochdata = puzzlelist.get("epochcode");
+	// 	await epochdata.fetch();
+	//   epochdata.set('UnsolvedPuzzleList', puzzlelist);
+	//   epochdata.set('totalunsolved', puzzlelist.get('puzzlecount'));
+	//   return epochdata.save();
+	// });
 	});
 
 
@@ -99,19 +99,19 @@ function initEpochData(){
 	});
 };
 
-function initSolvedPuzzleList(edata){
-	var solvedpuzzlelist = new SolvedPuzzleList();
-	var puzzles = null;//this is a parse relation, use add/remove to maintain. should use add always as logic design.
-	var puzzlecount = 0;
-	solvedpuzzlelist.set('puzzles', puzzles);
-	solvedpuzzlelist.set('puzzlecount', puzzlecount);
-	solvedpuzzlelist.set('epochcode', edata);
-	var players = null;//this is a parse relation, use add/remove to maintain. should use add always as logic design.
-	var playercount = 0;
-	solvedpuzzlelist.set('players', players);
-	solvedpuzzlelist.set('playercount', playercount);
-	return solvedpuzzlelist.save();
-};
+// function initSolvedPuzzleList(edata){
+// 	var solvedpuzzlelist = new SolvedPuzzleList();
+// 	var puzzles = null;//this is a parse relation, use add/remove to maintain. should use add always as logic design.
+// 	var puzzlecount = 0;
+// 	solvedpuzzlelist.set('puzzles', puzzles);
+// 	solvedpuzzlelist.set('puzzlecount', puzzlecount);
+// 	solvedpuzzlelist.set('epochcode', edata);
+// 	var players = null;//this is a parse relation, use add/remove to maintain. should use add always as logic design.
+// 	var playercount = 0;
+// 	solvedpuzzlelist.set('players', players);
+// 	solvedpuzzlelist.set('playercount', playercount);
+// 	return solvedpuzzlelist.save();
+// };
 
 // function initSolvingPuzzleList(epochdata){
 // 	var solvingpuzzlelist = new SolvingPuzzleList();
@@ -156,7 +156,8 @@ function initLevelDatas(epochdata){
 			leveldata.hero = null;
 			leveldata.playedtimes = 0;
 			leveldata.solvedtimes = 0;
-
+			leveldata.state = 0; //0: idel; 1: playing;
+			leveldata.endtime = Date();
 			var leveld = new LevelData();
 			promises.push(leveld.save(leveldata));
 	};
@@ -164,19 +165,19 @@ function initLevelDatas(epochdata){
 };
 
 
-function initUnsolvedPuzzleList(puzzlelist){
-	var unsolvedpuzzlelist = new UnsolvedPuzzleList();
-	var puzzles = [];
-	var epochdata = puzzlelist[0].get("epochcode");
-	puzzlelist.forEach((puzzle) => {
-		puzzles.push(puzzle.id);
-	});
-	var puzzlecount = puzzles.length;
-	unsolvedpuzzlelist.set('epochcode', epochdata);
-	unsolvedpuzzlelist.set('puzzles', puzzles);
-	unsolvedpuzzlelist.set('puzzlecount', puzzlecount);
-	return unsolvedpuzzlelist.save();
-};
+// function initUnsolvedPuzzleList(puzzlelist){
+// 	var unsolvedpuzzlelist = new UnsolvedPuzzleList();
+// 	var puzzles = [];
+// 	var epochdata = puzzlelist[0].get("epochcode");
+// 	puzzlelist.forEach((puzzle) => {
+// 		puzzles.push(puzzle.id);
+// 	});
+// 	var puzzlecount = puzzles.length;
+// 	unsolvedpuzzlelist.set('epochcode', epochdata);
+// 	unsolvedpuzzlelist.set('puzzles', puzzles);
+// 	unsolvedpuzzlelist.set('puzzlecount', puzzlecount);
+// 	return unsolvedpuzzlelist.save();
+// };
 
 
 

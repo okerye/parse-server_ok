@@ -23,22 +23,22 @@ Parse.Cloud.define("getpuzzle", async(requestpara) => {
 	var puzzleidchosen;
 	if(puzzletype == "Challenge")
 	{
-		const puzzlelistid = await epochdata.get("UnsolvedPuzzleList");
-		console.log("puzzlelistid Id: " + puzzlelistid);
-		await puzzlelistid.fetch();
-		const puzzlelistlength = puzzlelistid.get("puzzlecount");
-		const puzzlelist = puzzlelistid.get("puzzles");
-		puzzleidchosen = puzzlelist[getRandomInt(puzzlelistlength)];
+		// const puzzlelistid = await epochdata.get("UnsolvedPuzzleList");
+		// console.log("puzzlelistid Id: " + puzzlelistid);
+		// await puzzlelistid.fetch();
+		// const puzzlelistlength = puzzlelistid.get("puzzlecount");
+		// const puzzlelist = puzzlelistid.get("puzzles");
+		// puzzleidchosen = puzzlelist[getRandomInt(puzzlelistlength)];
 	} 
 	else if(puzzletype == "Practice")
 	{
-		//const querypuzzlelist = new Parse.Query(SolvedPuzzleList);
-		const puzzlelistid = await epochdata.get("SolvedPuzzleList");
-		console.log("puzzlelistid Id: " + puzzlelistid);
-		await puzzlelistid.fetch();
-		const puzzlelistlength = puzzlelistid.get("puzzlecount");
-		const puzzlelist = puzzlelistid.get("puzzles");
-		puzzleidchosen = puzzlelist[getRandomInt(puzzlelistlength)];
+		// //const querypuzzlelist = new Parse.Query(SolvedPuzzleList);
+		// const puzzlelistid = await epochdata.get("SolvedPuzzleList");
+		// console.log("puzzlelistid Id: " + puzzlelistid);
+		// await puzzlelistid.fetch();
+		// const puzzlelistlength = puzzlelistid.get("puzzlecount");
+		// const puzzlelist = puzzlelistid.get("puzzles");
+		// puzzleidchosen = puzzlelist[getRandomInt(puzzlelistlength)];
 	}
 	else if(puzzleid != "")
 	{
@@ -58,8 +58,6 @@ Parse.Cloud.define("getpuzzle", async(requestpara) => {
 
 	generateplayrecord(puzzledataobj, player);
 	updatepuzzledata(puzzleidchosen);
-	const solvingpuzzlelistid = await epochdata.get("SolvingPuzzleList");
-	updateSolvingPuzzleList(solvingpuzzlelistid, puzzledataobj, player);
 	updatePlayerInfo(puzzletype, player);
 	var resultjson = {};
 	 resultjson.puzzledata = puzzledata;	 
@@ -106,21 +104,6 @@ async function updatepuzzledata(puzzleid)
 	puzzledataobj.save();
 }
 
-async function updateSolvingPuzzleList(solvingpuzzlelist, puzzleid, playerid)
-{
-	// await solvingpuzzlelist.fetch(); 
-	// var puzzles = await solvingpuzzlelist.relation("puzzles");
-	// puzzles.add(puzzleid);
-	// //solvingpuzzlelist.set("puzzles", puzzles);
-	// var players = await solvingpuzzlelist.relation("players");
-	// players.add(playerid);
-	// //solvingpuzzlelist.set("players", players);
-	// var endtime = await solvingpuzzlelist.relation("solvingendtime");
-	// endtime.add(new Date(new Date() + 10*60000));
-	// //solvingpuzzlelist.set("endtime", endtime);
-	// solvingpuzzlelist.increment("puzzlecount");
-	// return solvingpuzzlelist.save();
-}
 
 function createDailyChallengePuzzlelist(today)
 {
@@ -156,17 +139,17 @@ async function updatePlayerInfo(puzzletype, player)
 }
 
 async function updateHardPuzzleRandList(hardpuzzlerandlist, puzzle){
-	await hardpuzzlerandlist.fetch(); 
-	var puzzles = await hardpuzzlerandlist.get("puzzles");
-	puzzles.add(puzzle);
-	hardpuzzlerandlist.set("puzzles", puzzles);
-	var playedtimes = await hardpuzzlerandlist.get("playedtimes");
-	playedtime = await puzzle.get("playedtimes");
-	playedtimes.add(playedtime);	
-	hardpuzzlerandlist.set("playedtimes", playedtimes);
-	var solvedtimes = await hardpuzzlerandlist.get("solvedtimes");
-	solvedtime = await puzzle.get("solvedtimes");
-	solvedtimes.add(solvedtime);
-	hardpuzzlerandlist.set("solvedtimes", solvedtimes);
-	return solvingpuzzlelist.save();
+	// await hardpuzzlerandlist.fetch(); 
+	// var puzzles = await hardpuzzlerandlist.get("puzzles");
+	// puzzles.add(puzzle);
+	// hardpuzzlerandlist.set("puzzles", puzzles);
+	// var playedtimes = await hardpuzzlerandlist.get("playedtimes");
+	// playedtime = await puzzle.get("playedtimes");
+	// playedtimes.add(playedtime);	
+	// hardpuzzlerandlist.set("playedtimes", playedtimes);
+	// var solvedtimes = await hardpuzzlerandlist.get("solvedtimes");
+	// solvedtime = await puzzle.get("solvedtimes");
+	// solvedtimes.add(solvedtime);
+	// hardpuzzlerandlist.set("solvedtimes", solvedtimes);
+	// return solvingpuzzlelist.save();
 }
