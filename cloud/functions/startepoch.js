@@ -157,7 +157,7 @@ function initLevelDatas(epochdata){
 			leveldata.playedtimes = 0;
 			leveldata.solvedtimes = 0;
 			leveldata.state = 0; //0: idel; 1: playing;
-			leveldata.endtime = Date();
+			leveldata.endtime = new Date();
 			var leveld = new LevelData();
 			promises.push(leveld.save(leveldata));
 	};
