@@ -1,8 +1,6 @@
 var LevelData = Parse.Object.extend("LevelData");
 var EpochData = Parse.Object.extend("EpochData");
-var UnsolvedPuzzleList = Parse.Object.extend("UnsolvedPuzzleList");
-var SolvedPuzzleList = Parse.Object.extend("SolvedPuzzleList");
-var SolvingPuzzleList = Parse.Object.extend("SolvingPuzzleList");
+
 Parse.Cloud.define("getpuzzle", async(requestpara) => {
 	const querylevel = new Parse.Query(LevelData);
 	const queryepochdata = new Parse.Query(EpochData);
@@ -89,8 +87,9 @@ Parse.Cloud.define("getpuzzle", async(requestpara) => {
 	const puzzlehero = await puzzledataobj.get("hero");
 
 	generateplayrecord(puzzledataobj, player);
-	updatepuzzledata(puzzleidchosen);
+	updatepuzzledata(puzzledataobj);
 	updatePlayerInfo(puzzletype, player);
+	updateHardPuzzleRankList(puzzledataobj)
 	var resultjson = {};
 	 resultjson.puzzledata = puzzledata;	 
 	 resultjson.puzzlewidth = puzzlewidth;
@@ -176,8 +175,51 @@ async function updatePlayerInfo(puzzletype, player)
 	}
 	return player.save(null, { useMasterKey: true});
 }
-
-async function updateHardPuzzleRandList(hardpuzzlerandlist, puzzle){
+var HardPuzzleRankList = Parse.Object.extend("HardPuzzleRankList");
+async function updateHardPuzzleRankList(puzzle){
+	const queryhpranklist = new Parse.Query(HardPuzzleRankList);
+	queryhpranklist.descending("succeedrate");
+	// var today = new Date().toLocaleDateString();
+	// querydailychallengelist.equalTo("today", today);
+	var hpranklist = await queryhpranklist.find();
+	if(hpranklist.length < 10)
+	{
+		await addtoHardPuzzleRankList(puzzle);
+		return;
+	}
+	var sameratepuzzle = [puzzle];
+	for(let i = 0; i < hpranklist.length; i++){
+		const obj = hpranklist[i];
+		if(obj.succeedrate > puzzle.solvedtimes/puzzle.playedtimes)
+		{
+			obj.destroy();
+			addtoHardPuzzleRankList(puzzle);
+			return;
+		}
+		else if(obj.succeedrate == puzzle.solvedtimes/puzzle.playedtimes)
+		{
+			sameratepuzzle.push(obj);
+		}
+		else
+		{
+			return;
+		}
+	}	
+	var targetobj = null;
+	for(let j = 0; j< sameratepuzzle.length; j++){
+		var leasttimes = puzzle.playedtimes;
+		var obj = sameratepuzzle[i];
+		if(obj.playedtimes < leasttimes)
+		{
+			leasttimes = obj.playedtimes;
+			targetobj = obj;			
+		}
+	}
+	if(targetobj != null)
+	{
+		addtoHardPuzzleRankList(puzzle);
+		obj.destroy();
+	}
 	// await hardpuzzlerandlist.fetch(); 
 	// var puzzles = await hardpuzzlerandlist.get("puzzles");
 	// puzzles.add(puzzle);
@@ -191,4 +233,17 @@ async function updateHardPuzzleRandList(hardpuzzlerandlist, puzzle){
 	// solvedtimes.add(solvedtime);
 	// hardpuzzlerandlist.set("solvedtimes", solvedtimes);
 	// return solvingpuzzlelist.save();
+	return;
+}
+
+function addtoHardPuzzleRankList(puzzle)
+{
+	var hpranklist = new HardPuzzleRankList();
+	hpranklist.set('puzzleid', puzzle.id);
+	hpranklist.set('puzzleepoch', puzzle.epochcode);
+	hpranklist.set('playedtimes', puzzle.playedtimes);
+	hpranklist.set('solvedtimes', puzzle.solvedtimes);
+	hpranklist.set('succeedrate', puzzle.solvedtimes/puzzle.playedtimes);
+	hpranklist.set('hero', puzzle.hero);
+	return hpranklist.save();
 }
