@@ -86,10 +86,10 @@ Parse.Cloud.define("getpuzzle", async(requestpara) => {
 	const puzzleplayedtimes = await puzzledataobj.get("playedtimes");
 	const puzzlehero = await puzzledataobj.get("hero");
 
-	generateplayrecord(puzzledataobj, player);
-	updatepuzzledata(puzzledataobj);
-	updatePlayerInfo(puzzletype, player);
-	updateHardPuzzleRankList(puzzledataobj)
+	await generateplayrecord(puzzledataobj, player);
+	await updatepuzzledata(puzzledataobj);
+	await updatePlayerInfo(puzzletype, player);
+	await updateHardPuzzleRankList(puzzledataobj)
 	var resultjson = {};
 	 resultjson.puzzledata = puzzledata;	 
 	 resultjson.puzzlewidth = puzzlewidth;
