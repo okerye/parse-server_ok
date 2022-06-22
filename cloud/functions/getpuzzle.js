@@ -25,11 +25,11 @@ Parse.Cloud.define("getpuzzle", async(requestpara) => {
 	if(puzzletype == "Challenge")
 	{
 		querylevel.equalTo("epochcode", epochcode);
-		querylevel.equalTo("state", 0);//0: unsolved puzzle
-		const skipcount = getRandomInt(unsolvedpuzzlecount);
+		querylevel.equalTo("solvedtimes", 0);//0: unsolved puzzle
 		var idlepuzzle = false;
 		while(!idlepuzzle)
 		{
+			var skipcount = getRandomInt(unsolvedpuzzlecount);
 			console.log("skipcount: " + skipcount);
 			querylevel.skip(skipcount);
 
