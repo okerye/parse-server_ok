@@ -18,14 +18,16 @@ Parse.Cloud.define("getpuzzle", async(requestpara) => {
 
 	console.log("epoch Id: " + epochcode);
 	epochdata = await queryepochdata.get(epochcode);
-	
-	
+	const unsolvedpuzzlecount = await epochdata.get("totalunsolved");
+	console.log("unsolvedpuzzlecount: " + unsolvedpuzzlecount);
 	var puzzleidchosen;
 
 	if(puzzletype == "Challenge")
 	{
 		querylevel.equalTo("epochcode", epochcode);
 		querylevel.equalTo("state", 0);//0: unsolved puzzle
+
+
 	    puzzleidchosen = await querylevel.first();
 		//await puzzleidchosen.fetch();
 		// const puzzlelistid = await epochdata.get("UnsolvedPuzzleList");
