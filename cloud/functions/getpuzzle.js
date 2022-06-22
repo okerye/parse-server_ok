@@ -182,7 +182,7 @@ async function updateHardPuzzleRankList(puzzle){
 	// var today = new Date().toLocaleDateString();
 	// querydailychallengelist.equalTo("today", today);
 	var hpranklist = await queryhpranklist.find();
-	if(hpranklist.length < 10)
+	if(hpranklist.length < 3)
 	{
 		await addtoHardPuzzleRankList(puzzle);
 		return;
