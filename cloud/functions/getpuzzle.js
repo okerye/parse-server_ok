@@ -241,9 +241,12 @@ function addtoHardPuzzleRankList(puzzle)
 	var hpranklist = new HardPuzzleRankList();
 	hpranklist.set('puzzleid', puzzle.id);
 	hpranklist.set('puzzleepoch', puzzle.epochcode);
-	hpranklist.set('playedtimes', puzzle.playedtimes);
-	hpranklist.set('solvedtimes', puzzle.solvedtimes);
+	var playedtimes = await puzzle.get("playedtimes");
+	hpranklist.set('playedtimes', playedtimes);
+	var solvedtimes = await puzzle.get("solvedtimes");
+	hpranklist.set('solvedtimes', solvedtimes);
 	hpranklist.set('succeedrate', puzzle.solvedtimes/puzzle.playedtimes);
-	hpranklist.set('hero', puzzle.hero);
+	var hero = await puzzle.get("hero");
+	hpranklist.set('hero', hero);
 	return hpranklist.save();
 }
