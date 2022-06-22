@@ -47,9 +47,11 @@ Parse.Cloud.define("getpuzzle", async(requestpara) => {
 				else
 				{
 					idlepuzzle = true;
+					console.log("endtime < now! ");
 				}	
 			}
 			idlepuzzle = true;
+			console.log("puzzleidchosen.state == 0");
 		}
 	} 
 	else if(puzzletype == "Practice")
