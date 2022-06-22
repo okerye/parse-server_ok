@@ -10,7 +10,7 @@ Parse.Cloud.define("getpuzzle", async(requestpara) => {
 	var playerid = requestpara.user.id;
 	var puzzletype = requestpara.params.para1;
 	var puzzleid = requestpara.params.para2;
-	var playerepochid = requestpara.params.para3;
+	//var playerepochid = requestpara.params.para3;
 	console.log("Player Id: " + playerid);
 
 	const player = await queryplayer.get(playerid);
@@ -24,7 +24,7 @@ Parse.Cloud.define("getpuzzle", async(requestpara) => {
 
 	if(puzzletype == "Challenge")
 	{
-		//querylevel.equalTo("epochcode", epochcode);
+		querylevel.equalTo("epochcode", epochcode);
 		querylevel.equalTo("state", 0);//0: unsolved puzzle
 	    puzzleidchosen = await querylevel.first();
 		//await puzzleidchosen.fetch();
