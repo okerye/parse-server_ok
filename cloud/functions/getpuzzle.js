@@ -13,22 +13,33 @@ Parse.Cloud.define("getpuzzle", async(requestpara) => {
 	//var playerepochid = requestpara.params.para3;
 	console.log("Player Id: " + playerid);
 
-	const player = await queryplayer.get(playerid);
-	const epochcode = await player.get("playerEpochId");
-
-	console.log("epoch Id: " + epochcode);
-	epochdata = await queryepochdata.get(epochcode);
-	const unsolvedpuzzlecount = await epochdata.get("totalunsolved");
-	console.log("unsolvedpuzzlecount: " + unsolvedpuzzlecount);
 	var puzzleidchosen;
-
-	if(puzzletype == "Challenge")
+	if(puzzleid != "")
 	{
+		puzzleidchosen = puzzleid;
+	}
+	else
+	{
+		const player = await queryplayer.get(playerid);
+		const epochcode = await player.get("playerEpochId");
+
+		console.log("epoch Id: " + epochcode);
+		epochdata = await queryepochdata.get(epochcode);
+		const unsolvedpuzzlecount = await epochdata.get("totalunsolved");
+		console.log("unsolvedpuzzlecount: " + unsolvedpuzzlecount);
+				
 		querylevel.equalTo("epochcode", epochcode);
-		querylevel.equalTo("solvedtimes", 0);//0: unsolved puzzle
+		if(puzzletype == "Challenge")
+		{
+			querylevel.equalTo("solvedtimes", 0);//0: unsolved puzzle
+		}
+		else if(puzzletype == "Practice")
+		{
+			querylevel.equalTo("solvedtimes", 0);//0: unsolved puzzle
+		}
 		var idlepuzzle = false;
 		var counter = 0;
-		while(!idlepuzzle && counter < unsolvedpuzzlecount)
+		while(!idlepuzzle && counter < unsolvedpuzzlecount*2)
 		{
 			counter++;
 			var skipcount = getRandomInt(unsolvedpuzzlecount);
@@ -60,19 +71,12 @@ Parse.Cloud.define("getpuzzle", async(requestpara) => {
 			}	
 		}
 		if(!idlepuzzle){
-			return null;
 			console.log("no availibel puzzle!");
+			return null;	
 		}
-	} 
-	else if(puzzletype == "Practice")
-	{
-		
 	}
-	else if(puzzleid != "")
-	{
-		const querypuzzle = new Parse.Query(LevelData);
-		puzzleidchosen = puzzleid;
-	}
+	
+	
 	//console.log("puzzleidchosen Id: " + puzzleidchosen);
 	const puzzledataobj = puzzleidchosen;//await querylevel.get(puzzleidchosen);
 	const puzzledata = await puzzleidchosen.get("elements");
@@ -102,8 +106,12 @@ Parse.Cloud.define("getpuzzle", async(requestpara) => {
 function getRandomInt(max) {
   return Math.floor(Math.random() * max);
 }
+
+
 var PlayeRecord = Parse.Object.extend("PlayeRecord");
 var DailyChallengePuzzlelist = Parse.Object.extend("DailyChallengePuzzlelist");
+
+
 async function generateplayrecord(puzzleid, playerid)
 {
 	var playrecord = new PlayeRecord();
