@@ -144,7 +144,7 @@ async function updatePlayerInfo(puzzletype, player)
 	{ 
 		player.increment("practicetimes");
 	}
-	return player.save();
+	return player.save(null, { useMasterKey: true});
 }
 
 async function updateHardPuzzleRandList(hardpuzzlerandlist, puzzle){
