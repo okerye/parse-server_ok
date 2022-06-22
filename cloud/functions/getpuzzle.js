@@ -27,8 +27,10 @@ Parse.Cloud.define("getpuzzle", async(requestpara) => {
 		querylevel.equalTo("epochcode", epochcode);
 		querylevel.equalTo("solvedtimes", 0);//0: unsolved puzzle
 		var idlepuzzle = false;
-		while(!idlepuzzle)
+		var counter = 0;
+		while(!idlepuzzle && counter < unsolvedpuzzlecount)
 		{
+			counter++;
 			var skipcount = getRandomInt(unsolvedpuzzlecount);
 			console.log("skipcount: " + skipcount);
 			querylevel.skip(skipcount);
@@ -50,8 +52,15 @@ Parse.Cloud.define("getpuzzle", async(requestpara) => {
 					console.log("endtime < now! ");
 				}	
 			}
-			idlepuzzle = true;
-			console.log("puzzleidchosen.state == 0");
+			else
+			{
+				idlepuzzle = true;
+				console.log("puzzleidchosen.state == 0");
+			}	
+		}
+		if(!idlepuzzle){
+			return null;
+			console.log("no availibel puzzle!");
 		}
 	} 
 	else if(puzzletype == "Practice")
