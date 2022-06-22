@@ -201,7 +201,7 @@ async function updateHardPuzzleRankList(puzzle){
 		await addtoHardPuzzleRankList(puzzle);
 		return;
 	}
-	var sameratepuzzle = [puzzle];
+	var sameratepuzzle = [];
 	for(let i = 0; i < hpranklist.length; i++){
 		const obj = hpranklist[i];
 		await obj.fetch();
@@ -235,8 +235,8 @@ async function updateHardPuzzleRankList(puzzle){
 	}
 	if(targetobj != null)
 	{
-		addtoHardPuzzleRankList(puzzle);
-		obj.destroy();
+		targetobj.destroy();
+		addtoHardPuzzleRankList(puzzle);	
 	}
 	// await hardpuzzlerandlist.fetch(); 
 	// var puzzles = await hardpuzzlerandlist.get("puzzles");
