@@ -250,16 +250,16 @@ async function updateHardPuzzleRankList(puzzle){
 
 async function addtoHardPuzzleRankList(puzzle)
 {
-	await puzzle.fetch();
+	await puzzle.fetch()
 	var hpranklist = new HardPuzzleRankList();
 	hpranklist.set('puzzleid', puzzle.id);
 	hpranklist.set('puzzleepoch', puzzle.epochcode);
 	//var playedtimes = await puzzle.get("playedtimes");
-	hpranklist.set('playedtimes', puzzle.playedtimes);
+	hpranklist.set('playedtimes', puzzle.get("playedtimes"));
 	//var solvedtimes = await puzzle.get("solvedtimes");
-	hpranklist.set('solvedtimes', puzzle.solvedtimes);
-	hpranklist.set('succeedrate', puzzle.solvedtimes/puzzle.playedtimes);
+	hpranklist.set('solvedtimes', puzzle.get("solvedtimes"));
+	hpranklist.set('succeedrate', puzzle.get("playedtimes")/puzzle.get("solvedtimes"));
 	//var hero = await puzzle.get("hero");
-	hpranklist.set('hero', puzzle.hero);
+	hpranklist.set('hero', puzzle.get("hero"));
 	return hpranklist.save();
 }
