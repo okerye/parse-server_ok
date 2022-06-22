@@ -220,6 +220,7 @@ async function updateHardPuzzleRankList(puzzle){
 		}
 	}	
 	var targetobj = null;
+	console.log("sameratepuzzle:" + sameratepuzzle);
 	for(let j = 0; j< sameratepuzzle.length; j++){
 		var leasttimes = puzzle.get("playedtimes");
 		var obj = sameratepuzzle[j]; 
