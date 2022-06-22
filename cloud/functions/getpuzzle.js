@@ -236,7 +236,7 @@ async function updateHardPuzzleRankList(puzzle){
 	return;
 }
 
-function addtoHardPuzzleRankList(puzzle)
+async function addtoHardPuzzleRankList(puzzle)
 {
 	var hpranklist = new HardPuzzleRankList();
 	hpranklist.set('puzzleid', puzzle.id);
