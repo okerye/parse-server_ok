@@ -222,7 +222,7 @@ async function updateHardPuzzleRankList(puzzle){
 	var targetobj = null;
 	for(let j = 0; j< sameratepuzzle.length; j++){
 		var leasttimes = puzzle.get("playedtimes");
-		var obj = sameratepuzzle[i];
+		var obj = sameratepuzzle[j];
 		await obj.fetch();
 		if(obj.get("playedtimes") < leasttimes)
 		{
