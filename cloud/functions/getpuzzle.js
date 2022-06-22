@@ -191,6 +191,7 @@ async function updateHardPuzzleRankList(puzzle){
 		{
 			obj.destroy();
 			addtoHardPuzzleRankList(puzzle);
+			console.log("found 1:");
 			return;
 		}
 	}
@@ -208,6 +209,7 @@ async function updateHardPuzzleRankList(puzzle){
 		{
 			obj.destroy();
 			addtoHardPuzzleRankList(puzzle);
+			console.log("found 2:");
 			return;
 		}
 		else if(obj.get("succeedrate") == puzzle.get("solvedtimes")/puzzle.get("playedtimes"))
