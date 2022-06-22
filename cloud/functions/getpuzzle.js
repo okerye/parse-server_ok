@@ -182,6 +182,18 @@ async function updateHardPuzzleRankList(puzzle){
 	// var today = new Date().toLocaleDateString();
 	// querydailychallengelist.equalTo("today", today);
 	var hpranklist = await queryhpranklist.find();
+	await puzzle.fetch();
+
+	for(let i = 0; i < hpranklist.length; i++){
+		const obj = hpranklist[i];
+		if(obj.puzzleid == puzzle.id)
+		{
+			obj.destroy();
+			addtoHardPuzzleRankList(puzzle);
+			return;
+		}
+	}
+
 	if(hpranklist.length < 3)
 	{
 		await addtoHardPuzzleRankList(puzzle);
@@ -238,15 +250,16 @@ async function updateHardPuzzleRankList(puzzle){
 
 async function addtoHardPuzzleRankList(puzzle)
 {
+	await puzzle.fetch();
 	var hpranklist = new HardPuzzleRankList();
 	hpranklist.set('puzzleid', puzzle.id);
 	hpranklist.set('puzzleepoch', puzzle.epochcode);
-	var playedtimes = await puzzle.get("playedtimes");
-	hpranklist.set('playedtimes', playedtimes);
-	var solvedtimes = await puzzle.get("solvedtimes");
-	hpranklist.set('solvedtimes', solvedtimes);
-	hpranklist.set('succeedrate', solvedtimes/playedtimes);
-	var hero = await puzzle.get("hero");
-	hpranklist.set('hero', hero);
+	//var playedtimes = await puzzle.get("playedtimes");
+	hpranklist.set('playedtimes', puzzle.playedtimes);
+	//var solvedtimes = await puzzle.get("solvedtimes");
+	hpranklist.set('solvedtimes', puzzle.solvedtimes);
+	hpranklist.set('succeedrate', puzzle.solvedtimes/puzzle.playedtimes);
+	//var hero = await puzzle.get("hero");
+	hpranklist.set('hero', puzzle.hero);
 	return hpranklist.save();
 }
