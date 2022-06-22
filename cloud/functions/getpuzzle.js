@@ -37,9 +37,10 @@ Parse.Cloud.define("getpuzzle", async(requestpara) => {
 
 		    puzzleidchosen = await querylevel.first();
 			console.log("puzzlelistid Id: " + puzzleidchosen.id);
-			if(puzzleidchosen.state == 1)
+			puzzlestate = await puzzleidchosen.get("state")
+			if(puzzlestate == 1)
 			{
-				endtime = puzzleidchosen.endtime;
+				endtime = await puzzleidchosen.get("endtime");
 				const now = new Date();
 				if(endtime > now)
 				{
