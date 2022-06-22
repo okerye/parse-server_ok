@@ -245,7 +245,7 @@ async function addtoHardPuzzleRankList(puzzle)
 	hpranklist.set('playedtimes', playedtimes);
 	var solvedtimes = await puzzle.get("solvedtimes");
 	hpranklist.set('solvedtimes', solvedtimes);
-	hpranklist.set('succeedrate', puzzle.solvedtimes/puzzle.playedtimes);
+	hpranklist.set('succeedrate', solvedtimes/playedtimes);
 	var hero = await puzzle.get("hero");
 	hpranklist.set('hero', hero);
 	return hpranklist.save();
