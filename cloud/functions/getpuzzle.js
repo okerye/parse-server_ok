@@ -191,7 +191,6 @@ async function updateHardPuzzleRankList(puzzle){
 		{
 			obj.destroy();
 			addtoHardPuzzleRankList(puzzle);
-			console.log("found 1:");
 			return;
 		}
 	}
@@ -209,7 +208,6 @@ async function updateHardPuzzleRankList(puzzle){
 		{
 			obj.destroy();
 			addtoHardPuzzleRankList(puzzle);
-			console.log("found 2:");
 			return;
 		}
 		else if(obj.get("succeedrate") == puzzle.get("solvedtimes")/puzzle.get("playedtimes"))
@@ -222,7 +220,7 @@ async function updateHardPuzzleRankList(puzzle){
 		}
 	}	
 	var targetobj = null;
-	console.log("sameratepuzzle:" + sameratepuzzle);
+	//console.log("sameratepuzzle:" + sameratepuzzle);
 	for(let j = 0; j< sameratepuzzle.length; j++){
 		var leasttimes = puzzle.get("playedtimes");
 		var obj = sameratepuzzle[j]; 
