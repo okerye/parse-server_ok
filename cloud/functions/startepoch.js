@@ -18,7 +18,7 @@ var SolvingPuzzleList = Parse.Object.extend("SolvingPuzzleList");
 var SolvedCountPlayerRankList = Parse.Object.extend("SolvedCountPlayerRankList");
 var HardPuzzleRankList = Parse.Object.extend("HardPuzzleRankList");
 
-
+var puzzlecount = 5;
 Parse.Cloud.define("startepoch", () => {	
 	initEpochData().then((epochdata)=>{
 
@@ -91,7 +91,7 @@ function initEpochData(){
 		edata.set('isend', false);
 		edata.set('lastday', Date());
 		edata.set('totalsolved', 0);
-		edata.set('totalunsolved', 0);
+		edata.set('totalunsolved', puzzlecount);
 		edata.set('totalsolvedplayercount', 0);
 		edata.set('lastdaysolved', 0);
 		edata.set('lastdaysolvedplayercount', 0);
@@ -149,10 +149,10 @@ function initEpochData(){
 
 function initLevelDatas(epochdata){
 	var promises = [];
-	for(var i = 1; i <= 5; i++)
+	for(var i = 1; i <= puzzlecount; i++)
 	{
 			const leveldata = require("../../levels/s" + i + ".json");
-			leveldata.epochcode = ""+epochdata.id;
+			leveldata.epochcode = epochdata.id;
 			leveldata.hero = null;
 			leveldata.playedtimes = 0;
 			leveldata.solvedtimes = 0;
