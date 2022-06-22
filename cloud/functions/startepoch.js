@@ -152,7 +152,7 @@ function initLevelDatas(epochdata){
 	for(var i = 1; i <= 5; i++)
 	{
 			const leveldata = require("../../levels/s" + i + ".json");
-			leveldata.epochcode = epochdata;
+			leveldata.epochcode = ""+epochdata;
 			leveldata.hero = null;
 			leveldata.playedtimes = 0;
 			leveldata.solvedtimes = 0;
