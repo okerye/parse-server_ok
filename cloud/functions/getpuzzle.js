@@ -41,17 +41,7 @@ Parse.Cloud.define("getpuzzle", async(requestpara) => {
 	} 
 	else if(puzzletype == "Practice")
 	{
-		querylevel.equalTo("epochcode", epochcode);
-		querylevel.equalTo("state", 1);//1: solved puzzle
-	    //puzzleidchosen = await querylevel.first();
-		await puzzleidchosen.fetch();
-		// //const querypuzzlelist = new Parse.Query(SolvedPuzzleList);
-		// const puzzlelistid = await epochdata.get("SolvedPuzzleList");
-		// console.log("puzzlelistid Id: " + puzzlelistid);
-		// await puzzlelistid.fetch();
-		// const puzzlelistlength = puzzlelistid.get("puzzlecount");
-		// const puzzlelist = puzzlelistid.get("puzzles");
-		// puzzleidchosen = puzzlelist[getRandomInt(puzzlelistlength)];
+		
 	}
 	else if(puzzleid != "")
 	{
@@ -114,6 +104,9 @@ async function updatepuzzledata(puzzleid)
 	const querylevel = new Parse.Query(LevelData);
 	const puzzledataobj = puzzleid;//await querylevel.get(puzzleid);
 	puzzledataobj.increment("playedtimes");
+	puzzledataobj.set("state", 1);//1: solving
+	const endtime = Date().getTime()+5*60000;
+	puzzledataobj.set("endtime", endtime);
 	puzzledataobj.save();
 }
 
