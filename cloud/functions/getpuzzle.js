@@ -186,7 +186,8 @@ async function updateHardPuzzleRankList(puzzle){
 
 	for(let i = 0; i < hpranklist.length; i++){
 		const obj = hpranklist[i];
-		if(obj.puzzleid == puzzle.id)
+		await obj.fetch();
+		if(obj.get("puzzleid") == puzzle.id)
 		{
 			obj.destroy();
 			addtoHardPuzzleRankList(puzzle);
@@ -202,13 +203,14 @@ async function updateHardPuzzleRankList(puzzle){
 	var sameratepuzzle = [puzzle];
 	for(let i = 0; i < hpranklist.length; i++){
 		const obj = hpranklist[i];
-		if(obj.succeedrate > puzzle.solvedtimes/puzzle.playedtimes)
+		await obj.fetch();
+		if(obj.get("succeedrate") > puzzle.get("solvedtimes")/puzzle.get("playedtimes"))
 		{
 			obj.destroy();
 			addtoHardPuzzleRankList(puzzle);
 			return;
 		}
-		else if(obj.succeedrate == puzzle.solvedtimes/puzzle.playedtimes)
+		else if(obj.get("succeedrate") == puzzle.get("solvedtimes")/puzzle.get("playedtimes"))
 		{
 			sameratepuzzle.push(obj);
 		}
@@ -219,11 +221,12 @@ async function updateHardPuzzleRankList(puzzle){
 	}	
 	var targetobj = null;
 	for(let j = 0; j< sameratepuzzle.length; j++){
-		var leasttimes = puzzle.playedtimes;
+		var leasttimes = puzzle.get("playedtimes");
 		var obj = sameratepuzzle[i];
-		if(obj.playedtimes < leasttimes)
+		await obj.fetch();
+		if(obj.get("playedtimes") < leasttimes)
 		{
-			leasttimes = obj.playedtimes;
+			leasttimes = obj.get("playedtimes");
 			targetobj = obj;			
 		}
 	}
@@ -250,10 +253,10 @@ async function updateHardPuzzleRankList(puzzle){
 
 async function addtoHardPuzzleRankList(puzzle)
 {
-	await puzzle.fetch()
+	await puzzle.fetch();
 	var hpranklist = new HardPuzzleRankList();
 	hpranklist.set('puzzleid', puzzle.id);
-	hpranklist.set('puzzleepoch', puzzle.epochcode);
+	hpranklist.set('puzzleepoch', puzzle.get("epochcode"));
 	//var playedtimes = await puzzle.get("playedtimes");
 	hpranklist.set('playedtimes', puzzle.get("playedtimes"));
 	//var solvedtimes = await puzzle.get("solvedtimes");
