@@ -26,7 +26,9 @@ Parse.Cloud.define("getpuzzle", async(requestpara) => {
 	{
 		querylevel.equalTo("epochcode", epochcode);
 		querylevel.equalTo("state", 0);//0: unsolved puzzle
-
+		const skipcount = getRandomInt(unsolvedpuzzlecount);
+		console.log("skipcount: " + skipcount);
+		querylevel.skip(skipcount);
 
 	    puzzleidchosen = await querylevel.first();
 		//await puzzleidchosen.fetch();
