@@ -23,24 +23,26 @@ Parse.Cloud.define("getpuzzle", async(requestpara) => {
 	{
 		console.log("epoch Id: " + epochcode);
 		epochdata = await queryepochdata.get(epochcode);
-		const unsolvedpuzzlecount = await epochdata.get("totalunsolved");
-		console.log("unsolvedpuzzlecount: " + unsolvedpuzzlecount);
-				
+		
+		var puzzlecount = 0;
 		querylevel.equalTo("epochcode", epochcode);
 		if(puzzletype == "Challenge")
 		{
 			querylevel.equalTo("solvedtimes", 0);//0: unsolved puzzle
+			puzzlecount = await epochdata.get("totalunsolved");
 		}
 		else if(puzzletype == "Practice")
 		{
-			querylevel.equalTo("solvedtimes", 0);//0: unsolved puzzle
+			querylevel.greaterThan("solvedtimes", 0);//>0: solved puzzle
+			puzzlecount = await epochdata.get("totalsolved");
 		}
+		console.log("puzzlecount: " + puzzlecount);
 		var idlepuzzle = false;
 		var counter = 0;
-		while(!idlepuzzle && counter < unsolvedpuzzlecount*2)
+		while(!idlepuzzle && counter < puzzlecount*2)
 		{
 			counter++;
-			var skipcount = getRandomInt(unsolvedpuzzlecount);
+			var skipcount = getRandomInt(puzzlecount);
 			console.log("skipcount: " + skipcount);
 			querylevel.skip(skipcount);
 
@@ -78,7 +80,7 @@ Parse.Cloud.define("getpuzzle", async(requestpara) => {
 	//console.log("puzzleidchosen Id: " + puzzleidchosen);
 	const puzzledataobj = puzzleidchosen;//await querylevel.get(puzzleidchosen);
 	const puzzledata = await puzzleidchosen.get("elements");
-	console.log("puzzledata: " + puzzledata);
+	//console.log("puzzledata: " + puzzledata);
 	const puzzlewidth = await puzzledataobj.get("level_w");
 	const puzzleheight = await puzzledataobj.get("level_h");
 	const puzzlesinpos = await puzzledataobj.get("singuility_pos");
