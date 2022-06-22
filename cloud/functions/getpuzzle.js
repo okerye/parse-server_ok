@@ -105,7 +105,7 @@ async function updatepuzzledata(puzzleid)
 	const puzzledataobj = puzzleid;//await querylevel.get(puzzleid);
 	puzzledataobj.increment("playedtimes");
 	puzzledataobj.set("state", 1);//1: solving
-	const endtime = Date().getTime()+5*60000;
+	const endtime = (new Date()).getTime()+5*60000;
 	puzzledataobj.set("endtime", endtime);
 	puzzledataobj.save();
 }
