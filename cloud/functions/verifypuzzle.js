@@ -14,8 +14,11 @@ Parse.Cloud.define("verifypuzzle", async(requestpara) => {
 	console.log("playerid: " + playerid);
 	console.log("puzzlesolvingsteps: " + puzzlesolvingsteps);
 	const player = await queryplayer.get(playerid);
+	console.log("state: " + 1);
 	const currentgameid = await player.get("currentgame");
+	console.log("state: " + 2);
 	const epochcode = await player.get("playerEpochId");
+	console.log("state: " + 3);
 	const currentgame = await querycurrentgame.get(currentgameid);
 	console.log("currentgame: " + currentgame);
 	const puzzleid = await currentgame.get("puzzleid");
