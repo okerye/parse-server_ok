@@ -35,16 +35,18 @@ Parse.Cloud.define("verifypuzzle", async(requestpara) => {
 			return false;
 		if(puzzletype == "challenge")
 		{			
+			console.log("currenpuzzle: " + currenpuzzle.id);
 			currenpuzzle.set("hero", playerid);			
 			epochdata.increment("totalsolved");
 			const totalunsolvednumber = epochdata.get("totalunsolved") - 1;
 			epochdata.set("totalunsolved", totalunsolvednumber);
+			player.increment("challengesuccess");
 		}
 		else if(puzzletype == "practice")
 		{
-
+			player.increment("practicesuccess");
 		}
-		player.increment("solvedtimes");
+		console.log("currentgame: " + currentgame.id);
 		currentgame.set("solution",puzzlesolvingsteps);
 		currenpuzzle.increment("solvedtimes");
 		//currenpuzzle.set("state", 0);
