@@ -22,7 +22,7 @@ Parse.Cloud.define("verifypuzzle", async(requestpara) => {
 	const currentgame = await querycurrentgame.get(currentgameid.id);
 	console.log("currentgame: " + currentgame);
 	const puzzleid = await currentgame.get("puzzleid");
-	const currenpuzzle = await querypuzzledata.get(puzzleid);
+	const currenpuzzle = await querypuzzledata.get(puzzleid.id);
 	const endtime = await currenpuzzle.get("endtime");
 	const epochdata = await queryepochdata.get(epochcode);
 	console.log("epochdata: " + epochdata);
