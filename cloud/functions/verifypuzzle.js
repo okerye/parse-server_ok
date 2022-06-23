@@ -26,7 +26,7 @@ Parse.Cloud.define("verifypuzzle", async(requestpara) => {
 	if(now < endtime) //complete challenge
 	{
 		//check if it is right todo 
-		bool isright = checkanswer(puzzlesolvingsteps, currenpuzzle.get("elements"));
+		var isright = checkanswer(puzzlesolvingsteps, currenpuzzle.get("elements"));
 		if(!isright)
 			return false;
 		if(puzzletype == "challenge")
