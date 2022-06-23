@@ -52,7 +52,7 @@ Parse.Cloud.define("verifypuzzle", async(requestpara) => {
 		//currenpuzzle.set("state", 0);
 		await currentgame.save();
 		await currenpuzzle.save();
-		await player.save();
+		await player.save(null, { useMasterKey: true});
 		await epochdata.save();
 
 
