@@ -117,7 +117,7 @@ async function generateplayrecord(puzzleid, playerid)
 	var playrecord = new PlayeRecord();
 	playrecord.set("puzzleid", puzzleid);
 	playrecord.set("playerid", playerid);
-	playrecord.set("solution", "");
+	playrecord.set("solution", []);
 	const querydailychallengelist = new Parse.Query(DailyChallengePuzzlelist);
 	var today = new Date().toLocaleDateString();
 	querydailychallengelist.equalTo("today", today);
