@@ -46,8 +46,8 @@ Parse.Cloud.define("getpuzzle", async(requestpara) => {
 
 		    puzzleidchosen = await querylevel.first();
 			console.log("puzzlelistid Id: " + puzzleidchosen.id);
-			puzzlestate = await puzzleidchosen.get("state")
-			if(puzzlestate == 1)
+			//puzzlestate = await puzzleidchosen.get("state")
+			//if(puzzlestate == 1)
 			{
 				endtime = await puzzleidchosen.get("endtime");
 				const now = new Date();
@@ -62,11 +62,11 @@ Parse.Cloud.define("getpuzzle", async(requestpara) => {
 					console.log("endtime < now! ");
 				}	
 			}
-			else
-			{
-				idlepuzzle = true;
-				console.log("puzzleidchosen.state == 0");
-			}	
+			// else
+			// {
+			// 	idlepuzzle = true;
+			// 	console.log("puzzleidchosen.state == 0");
+			// }	
 		}
 		if(!idlepuzzle){
 			console.log("no availibel puzzle!");
@@ -138,7 +138,7 @@ async function updatepuzzledata(puzzleid)
 	const querylevel = new Parse.Query(LevelData);
 	const puzzledataobj = puzzleid;//await querylevel.get(puzzleid);
 	puzzledataobj.increment("playedtimes");
-	puzzledataobj.set("state", 1);//1: solving
+	//puzzledataobj.set("state", 1);//1: solving
 	const endtime = new Date((new Date()).getTime()+1*60000);
 	puzzledataobj.set("endtime", endtime);
 	puzzledataobj.save();
