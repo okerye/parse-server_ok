@@ -86,9 +86,10 @@ Parse.Cloud.define("getpuzzle", async(requestpara) => {
 	const puzzleplayedtimes = await puzzledataobj.get("playedtimes");
 	const puzzlehero = await puzzledataobj.get("hero");
 
-	await generateplayrecord(puzzledataobj, player);
+	const record = await generateplayrecord(puzzledataobj, player);
+	console.log("generateplayrecord: " + record);
 	await updatepuzzledata(puzzledataobj);
-	await updatePlayerInfo(puzzletype, player);
+	await updatePlayerInfo(puzzletype, player, record);
 	await updateHardPuzzleRankList(puzzledataobj)
 	var resultjson = {};
 	 resultjson.level_w = puzzlewidth;	 
@@ -129,6 +130,7 @@ async function generateplayrecord(puzzleid, playerid)
 	playrecord.set("dailylist", dailychallengelist);
 	await playrecord.save();
 	updateDailyChallengPuzzleList(dailychallengelist, playrecord);
+	return playrecord;
 }
 
 async function updatepuzzledata(puzzleid)
@@ -137,7 +139,7 @@ async function updatepuzzledata(puzzleid)
 	const puzzledataobj = puzzleid;//await querylevel.get(puzzleid);
 	puzzledataobj.increment("playedtimes");
 	puzzledataobj.set("state", 1);//1: solving
-	const endtime = new Date((new Date()).getTime()+5*60000);
+	const endtime = new Date((new Date()).getTime()+1*60000);
 	puzzledataobj.set("endtime", endtime);
 	puzzledataobj.save();
 }
@@ -162,7 +164,7 @@ async function updateDailyChallengPuzzleList(dailychallengelist, playrecord){
 	return dailychallengelist.save();
 }
 
-async function updatePlayerInfo(puzzletype, player)
+async function updatePlayerInfo(puzzletype, player, playrecord)
 {
 	await player.fetch();
 	if(puzzletype == "Challenge")
@@ -173,6 +175,7 @@ async function updatePlayerInfo(puzzletype, player)
 	{ 
 		player.increment("practicetimes");
 	}
+	player.set("currentgame", playrecord);
 	return player.save(null, { useMasterKey: true});
 }
 var HardPuzzleRankList = Parse.Object.extend("HardPuzzleRankList");
