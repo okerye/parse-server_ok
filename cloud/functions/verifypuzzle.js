@@ -17,11 +17,12 @@ Parse.Cloud.define("verifypuzzle", async(requestpara) => {
 	const currentgameid = await player.get("currentgame");
 	const epochcode = await player.get("playerEpochId");
 	const currentgame = await querycurrentgame.get(currentgameid);
-	
+	console.log("currentgame: " + currentgame);
 	const puzzleid = await currentgame.get("puzzleid");
 	const currenpuzzle = await querypuzzledata.get(puzzleid);
 	const endtime = await currenpuzzle.get("endtime");
 	const epochdata = await queryepochdata.get(epochcode);
+	console.log("epochdata: " + epochdata);
 	const now = Date();
 	if(now < endtime) //complete challenge
 	{
