@@ -26,7 +26,7 @@ Parse.Cloud.define("verifypuzzle", async(requestpara) => {
 	const endtime = await currenpuzzle.get("endtime");
 	const epochdata = await queryepochdata.get(epochcode);
 	console.log("epochdata: " + epochdata);
-	const now = Date();
+	const now = new Date();
 	if(now < endtime) //complete challenge
 	{
 		//check if it is right todo 
