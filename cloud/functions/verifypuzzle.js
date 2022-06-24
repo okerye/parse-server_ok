@@ -29,7 +29,7 @@ Parse.Cloud.define("verifypuzzle", async(requestpara) => {
 	const now = new Date();
 	if(now < endtime) //complete challenge
 	{
-		//check if it is right todo 
+		//todo: check if it is right  
 		var isright = checkanswer(puzzlesolvingsteps, currenpuzzle.get("elements"));
 		if(!isright)
 			return false;
@@ -40,7 +40,36 @@ Parse.Cloud.define("verifypuzzle", async(requestpara) => {
 			epochdata.increment("totalsolved");
 			const totalunsolvednumber = epochdata.get("totalunsolved") - 1;
 			epochdata.set("totalunsolved", totalunsolvednumber);
+			const playersolved = player.get("challengesuccess");
+			if(playersolved == 0)
+			{
+				epochdata.increment("totalsolvedplayercount");
+			}
 			player.increment("challengesuccess");
+			const playersolvedlastdate = player.get("solvedlastdate");
+			var today = new Date(new Date().setHours(0,0,0,0));
+			if(playersolvedlastdate != today)
+			{
+				player.set("solvedlastdate", today);
+
+			}
+			if(epochdata.get("todaydate") != today)
+			{
+				epochdata.set('lastdaysolved', 'todaysolved');
+				epochdata.set('lastdaysolvedplayercount', 'todaysolved');
+				epochdata.set('lastdaydate','todaydate');
+				epochdata.set('todaysolved', 1);
+				epochdata.set('todaysolvedplayercount', 1);
+				epochdata.set('todaydate',today);
+			}
+			else
+			{
+				epochdata.increment("todaysolved");
+				if(playersolvedlastdate != today)
+				{
+					epochdata.increment("todaysolvedplayercount");
+				}
+			}
 		}
 		else if(puzzletype == "practice")
 		{

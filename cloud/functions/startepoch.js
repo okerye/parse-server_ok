@@ -93,8 +93,12 @@ function initEpochData(){
 		edata.set('totalsolved', 0);
 		edata.set('totalunsolved', puzzlecount);
 		edata.set('totalsolvedplayercount', 0);
+		edata.set('todaysolved', 0);
+		edata.set('todaysolvedplayercount', 0);
+		edata.set('todaydate', new Date(new Date().setHours(0,0,0,0)));
 		edata.set('lastdaysolved', 0);
 		edata.set('lastdaysolvedplayercount', 0);
+		edata.set('lastdaydate', new Date(new Date().setHours(0,0,0,0)));
 		return edata.save();
 	});
 };
@@ -156,7 +160,7 @@ function initLevelDatas(epochdata){
 			leveldata.hero = null;
 			leveldata.playedtimes = 0;
 			leveldata.solvedtimes = 0;
-			leveldata.state = 0; //0: idel; 1: playing;
+			//leveldata.state = 0; //0: idel; 1: playing;
 			leveldata.endtime = new Date();
 			var leveld = new LevelData();
 			promises.push(leveld.save(leveldata));

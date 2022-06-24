@@ -12,6 +12,20 @@ Parse.Cloud.define("getpuzzle", async(requestpara) => {
 	console.log("Player Id: " + playerid);
 	const player = await queryplayer.get(playerid);
 	const epochcode = await player.get("playerEpochId");
+
+	console.log("epoch Id: " + epochcode);
+	var epochdata = await queryepochdata.get(epochcode);
+
+	if(epochdata.get("todaydate") != today)
+	{
+		epochdata.set('lastdaysolved', 'todaysolved');
+		epochdata.set('lastdaysolvedplayercount', 'todaysolved');
+		epochdata.set('lastdaydate','todaydate');
+		epochdata.set('todaysolved', 0);
+		epochdata.set('todaysolvedplayercount', 0);
+		epochdata.set('todaydate',today);
+	}
+
 	var puzzleidchosen;
 	if(puzzleid != "")
 	{
@@ -19,9 +33,6 @@ Parse.Cloud.define("getpuzzle", async(requestpara) => {
 	}
 	else
 	{
-		console.log("epoch Id: " + epochcode);
-		epochdata = await queryepochdata.get(epochcode);
-		
 		var puzzlecount = 0;
 		querylevel.equalTo("epochcode", epochcode);
 		if(puzzletype == "Challenge")
