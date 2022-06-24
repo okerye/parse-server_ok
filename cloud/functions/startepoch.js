@@ -89,7 +89,6 @@ function initEpochData(){
 		var edata = new EpochData();
 		edata.set('endtime', Date());
 		edata.set('isend', false);
-		edata.set('lastday', Date());
 		edata.set('totalsolved', 0);
 		edata.set('totalunsolved', puzzlecount);
 		edata.set('totalsolvedplayercount', 0);

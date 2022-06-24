@@ -121,7 +121,7 @@ function getRandomInt(max) {
 
 
 var PlayeRecord = Parse.Object.extend("PlayeRecord");
-var DailyChallengePuzzlelist = Parse.Object.extend("DailyChallengePuzzlelist");
+//var DailyChallengePuzzlelist = Parse.Object.extend("DailyChallengePuzzlelist");
 
 
 async function generateplayrecord(puzzleid, playerid)
@@ -130,18 +130,18 @@ async function generateplayrecord(puzzleid, playerid)
 	playrecord.set("puzzleid", puzzleid);
 	playrecord.set("playerid", playerid);
 	playrecord.set("solution", []);
-	const querydailychallengelist = new Parse.Query(DailyChallengePuzzlelist);
+	//const querydailychallengelist = new Parse.Query(DailyChallengePuzzlelist);
 	var today = new Date().toLocaleDateString();
-	querydailychallengelist.equalTo("today", today);
-	var dailychallengelist = await querydailychallengelist.first();
-	if(dailychallengelist == null)
-	{
-		dailychallengelist = await createDailyChallengePuzzlelist(today);
-	}
+	//querydailychallengelist.equalTo("today", today);
+	// var dailychallengelist = await querydailychallengelist.first();
+	// if(dailychallengelist == null)
+	// {
+	// 	dailychallengelist = await createDailyChallengePuzzlelist(today);
+	// }
 
-	playrecord.set("dailylist", dailychallengelist);
+	// playrecord.set("dailylist", dailychallengelist);
 	await playrecord.save();
-	updateDailyChallengPuzzleList(dailychallengelist, playrecord);
+	//updateDailyChallengPuzzleList(dailychallengelist, playrecord);
 	return playrecord;
 }
 
