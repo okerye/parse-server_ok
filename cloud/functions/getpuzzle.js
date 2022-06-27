@@ -15,9 +15,9 @@ Parse.Cloud.define("getpuzzle", async(requestpara) => {
 
 	console.log("epoch Id: " + epochcode);
 	var epochdata = await queryepochdata.get(epochcode);
-	var today = new Date(new Date().setHours(0,0,0,0));
+	var today = new Date();
 
-	if(epochdata.get("todaydate") != today)
+	if(epochdata.get("todaydate").setHours(0,0,0,0) != today.setHours(0,0,0,0))
 	{
 		epochdata.set('lastdaysolved', epochdata.get('todaysolved'));
 		epochdata.set('lastdaysolvedplayercount', epochdata.get('todaysolved'));
@@ -132,7 +132,7 @@ async function generateplayrecord(puzzleid, playerid)
 	playrecord.set("playerid", playerid);
 	playrecord.set("solution", []);
 	//const querydailychallengelist = new Parse.Query(DailyChallengePuzzlelist);
-	var today = new Date().toLocaleDateString();
+	// var today = new Date().toLocaleDateString();
 	//querydailychallengelist.equalTo("today", today);
 	// var dailychallengelist = await querydailychallengelist.first();
 	// if(dailychallengelist == null)
@@ -158,24 +158,24 @@ async function updatepuzzledata(puzzleid)
 }
 
 
-function createDailyChallengePuzzlelist(today)
-{
-	var dailychallengepuzzlelist = new DailyChallengePuzzlelist();
+// function createDailyChallengePuzzlelist(today)
+// {
+// 	var dailychallengepuzzlelist = new DailyChallengePuzzlelist();
 
-	dailychallengepuzzlelist.set("today", today);
-	dailychallengepuzzlelist.set("challengetimes", 0);
-	dailychallengepuzzlelist.set("challengesucceeded", 0);
-	dailychallengepuzzlelist.set("challengesucceededplayers", 0);
-	return dailychallengepuzzlelist.save();
-}
+// 	dailychallengepuzzlelist.set("today", today);
+// 	dailychallengepuzzlelist.set("challengetimes", 0);
+// 	dailychallengepuzzlelist.set("challengesucceeded", 0);
+// 	dailychallengepuzzlelist.set("challengesucceededplayers", 0);
+// 	return dailychallengepuzzlelist.save();
+// }
 
-async function updateDailyChallengPuzzleList(dailychallengelist, playrecord){
-	await dailychallengelist.fetch();
-	var dailychallenges = dailychallengelist.relation("dailychallengelist");
-	dailychallenges.add(playrecord);
-	dailychallengelist.increment("challengetimes");
-	return dailychallengelist.save();
-}
+// async function updateDailyChallengPuzzleList(dailychallengelist, playrecord){
+// 	await dailychallengelist.fetch();
+// 	var dailychallenges = dailychallengelist.relation("dailychallengelist");
+// 	dailychallenges.add(playrecord);
+// 	dailychallengelist.increment("challengetimes");
+// 	return dailychallengelist.save();
+// }
 
 async function updatePlayerInfo(puzzletype, player, playrecord)
 {

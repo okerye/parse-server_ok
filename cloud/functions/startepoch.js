@@ -94,10 +94,11 @@ function initEpochData(){
 		edata.set('totalsolvedplayercount', 0);
 		edata.set('todaysolved', 0);
 		edata.set('todaysolvedplayercount', 0);
-		edata.set('todaydate', new Date(new Date().setHours(0,0,0,0)));
+		const todaydate = new Date();
+		edata.set('todaydate', todaydate);
 		edata.set('lastdaysolved', 0);
 		edata.set('lastdaysolvedplayercount', 0);
-		edata.set('lastdaydate', new Date(new Date().setHours(0,0,0,0)));
+		edata.set('lastdaydate', todaydate);
 		return edata.save();
 	});
 };

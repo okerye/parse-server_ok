@@ -46,14 +46,14 @@ Parse.Cloud.define("verifypuzzle", async(requestpara) => {
 				epochdata.increment("totalsolvedplayercount");
 			}
 			player.increment("challengesuccess");
-			const playersolvedlastdate = player.get("solvedlastdate");
-			var today = new Date(new Date().setHours(0,0,0,0));
-			if(playersolvedlastdate != today)
+			const playersolvedlastdate = player.get("solvedlastdate").setHours(0,0,0,0);
+			var today = new Date();
+			if(playersolvedlastdate != today.setHours(0,0,0,0))
 			{
 				player.set("solvedlastdate", today);
 
 			}
-			if(epochdata.get("todaydate") != today)
+			if(epochdata.get("todaydate").setHours(0,0,0,0) != today)
 			{
 				epochdata.set('lastdaysolved', epochdata.get('todaysolved'));
 				epochdata.set('lastdaysolvedplayercount', epochdata.get('todaysolved'));
@@ -65,7 +65,7 @@ Parse.Cloud.define("verifypuzzle", async(requestpara) => {
 			else
 			{
 				epochdata.increment("todaysolved");
-				if(playersolvedlastdate != today)
+				if(playersolvedlastdate != today.setHours(0,0,0,0))
 				{
 					epochdata.increment("todaysolvedplayercount");
 				}
