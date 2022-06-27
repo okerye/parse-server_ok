@@ -94,7 +94,7 @@ function initEpochData(){
 		edata.set('totalsolvedplayercount', 0);
 		edata.set('todaysolved', 0);
 		edata.set('todaysolvedplayercount', 0);
-		const todaydate = new Date();
+		const todaydate = new Date(new Date().setHours(0,0,0,0));
 		edata.set('todaydate', todaydate);
 		edata.set('lastdaysolved', 0);
 		edata.set('lastdaysolvedplayercount', 0);

@@ -15,9 +15,9 @@ Parse.Cloud.define("getpuzzle", async(requestpara) => {
 
 	console.log("epoch Id: " + epochcode);
 	var epochdata = await queryepochdata.get(epochcode);
-	var today = new Date();
+	var today = new Date(new Date().setHours(0,0,0,0));
 
-	if(epochdata.get("todaydate").setHours(0,0,0,0) != today.setHours(0,0,0,0))
+	if(epochdata.get("todaydate") != today)
 	{
 		epochdata.set('lastdaysolved', epochdata.get('todaysolved'));
 		epochdata.set('lastdaysolvedplayercount', epochdata.get('todaysolved'));
