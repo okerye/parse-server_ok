@@ -25,6 +25,7 @@ Parse.Cloud.define("getpuzzle", async(requestpara) => {
 		epochdata.set('todaysolved', 0);
 		epochdata.set('todaysolvedplayercount', 0);
 		epochdata.set('todaydate',today);
+		epochdata.save();
 	}
 
 	var puzzleidchosen;
