@@ -97,7 +97,9 @@ Parse.Cloud.define("getpuzzle", async(requestpara) => {
 	const puzzlesinpos = await puzzledataobj.get("singuility_pos");
 	const puzzlesolvedtimes = await puzzledataobj.get("solvedtimes");
 	const puzzleplayedtimes = await puzzledataobj.get("playedtimes");
-	const puzzlehero = await puzzledataobj.get("hero");
+	const puzzleheroid = await puzzledataobj.get("hero");
+	const puzzlehero = await queryplayer.get(puzzleheroid);
+	const puzzleheroname = await queryplayer.get("nickname");
 
 	const record = await generateplayrecord(puzzledataobj, player);
 	console.log("generateplayrecord: " + record);
@@ -111,7 +113,7 @@ Parse.Cloud.define("getpuzzle", async(requestpara) => {
 	 resultjson.elements = puzzledata;
 	 resultjson.puzzlesolvedtimes = puzzlesolvedtimes;
 	 resultjson.puzzleplayedtimes = puzzleplayedtimes;
-	 resultjson.puzzlehero = puzzlehero;
+	 resultjson.puzzlehero = puzzleheroname;
 	return resultjson;
 });
 
