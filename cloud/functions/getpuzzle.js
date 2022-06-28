@@ -99,7 +99,7 @@ Parse.Cloud.define("getpuzzle", async(requestpara) => {
 	const puzzleplayedtimes = await puzzledataobj.get("playedtimes");
 	const puzzleheroid = await puzzledataobj.get("hero");
 	const puzzlehero = await queryplayer.get(puzzleheroid);
-	const puzzleheroname = await queryplayer.get("nickname");
+	const puzzleheroname = await puzzlehero.get("nickname");
 
 	const record = await generateplayrecord(puzzledataobj, player);
 	console.log("generateplayrecord: " + record);
