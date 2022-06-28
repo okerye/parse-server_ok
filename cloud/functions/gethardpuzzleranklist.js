@@ -17,7 +17,7 @@ Parse.Cloud.define("gethardpuzzleranklist", async() => {
 		const puzzlehero = await queryplayer.get(heroid);
 		const puzzleheroname = await puzzlehero.get("nickname");
 		resultjson.heronickname = puzzleheroname;
-		results.add(resultjson);
+		results.push(resultjson);
 	}
 	return results;
 });
