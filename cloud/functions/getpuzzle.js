@@ -103,10 +103,7 @@ Parse.Cloud.define("getpuzzle", async(requestpara) => {
 
 	const record = await generateplayrecord(puzzledataobj, player);
 	console.log("generateplayrecord: " + record);
-	if(puzzletype == "Challenge")
-	{
-		await updatepuzzledata(puzzledataobj);
-	}
+	await updatepuzzledata(puzzledataobj, puzzletype);
 	await updatePlayerInfo(puzzletype, player, record);
 	await updateHardPuzzleRankList(puzzledataobj)
 	var resultjson = {};
@@ -151,13 +148,14 @@ async function generateplayrecord(puzzleid, playerid)
 	return playrecord;
 }
 
-async function updatepuzzledata(puzzleid)
+async function updatepuzzledata(puzzleid, puzzletype)
 {
 	const querylevel = new Parse.Query(LevelData);
 	const puzzledataobj = puzzleid;//await querylevel.get(puzzleid);
 	puzzledataobj.increment("playedtimes");
 	//puzzledataobj.set("state", 1);//1: solving
-	const endtime = new Date((new Date()).getTime()+1*60000);
+	if(puzzletype == "Challenge")
+	{const endtime = new Date((new Date()).getTime()+1*60000);}
 	puzzledataobj.set("endtime", endtime);
 	puzzledataobj.save();
 }
