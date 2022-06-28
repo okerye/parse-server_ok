@@ -2,6 +2,7 @@ var HardPuzzleRankList = Parse.Object.extend("HardPuzzleRankList");
 
 Parse.Cloud.define("gethardpuzzleranklist", async() => {
 	const queryhpranklist = new Parse.Query(HardPuzzleRankList);
+	const queryplayer = new Parse.Query(Parse.User);
 	queryhpranklist.descending("succeedrate");
 	var results = [];
 	var hpranklist = await queryhpranklist.find();
@@ -12,7 +13,10 @@ Parse.Cloud.define("gethardpuzzleranklist", async() => {
 		resultjson.puzzleid = await obj.get("puzzleid");
 		resultjson.puzzlesolvedtimes = await obj.get("solvedtimes");
 		resultjson.puzzleplayedtimes = await obj.get("playedtimes");
-		resultjson.puzzlehero = await obj.get("hero");;
+		const heroid = await obj.get("hero");;
+		const puzzlehero = await queryplayer.get(heroid);
+		const puzzleheroname = await puzzlehero.get("nickname");
+		resultjson.heronickname = puzzleheroname;
 		results.add(resultjson);
 	}
 	return results;
