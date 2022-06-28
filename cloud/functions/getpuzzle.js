@@ -103,7 +103,10 @@ Parse.Cloud.define("getpuzzle", async(requestpara) => {
 
 	const record = await generateplayrecord(puzzledataobj, player);
 	console.log("generateplayrecord: " + record);
-	await updatepuzzledata(puzzledataobj);
+	if(puzzletype == "Challenge")
+	{
+		await updatepuzzledata(puzzledataobj);
+	}
 	await updatePlayerInfo(puzzletype, player, record);
 	await updateHardPuzzleRankList(puzzledataobj)
 	var resultjson = {};
