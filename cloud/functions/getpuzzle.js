@@ -111,6 +111,7 @@ Parse.Cloud.define("getpuzzle", async(requestpara) => {
 	 resultjson.level_h = puzzleheight;
 	 resultjson.singuility_pos = puzzlesinpos;
 	 resultjson.elements = puzzledata;
+	 resultjson.puzzleid = puzzledataobj;
 	 resultjson.puzzlesolvedtimes = puzzlesolvedtimes;
 	 resultjson.puzzleplayedtimes = puzzleplayedtimes;
 	 resultjson.puzzlehero = puzzleheroname;
