@@ -85,6 +85,7 @@ Parse.Cloud.define("verifypuzzle", async(requestpara) => {
 		await player.save(null, { useMasterKey: true});
 		await epochdata.save();
 		await updateHardPuzzleRankList(puzzleid)
+		await updateHeroRankList(player);
 
 		return true;
 	}
@@ -188,4 +189,80 @@ async function addtoHardPuzzleRankList(puzzle)
 	//var hero = await puzzle.get("hero");
 	hpranklist.set('hero', puzzle.get("hero"));
 	return hpranklist.save();
+}
+
+
+var HeroRankList = Parse.Object.extend("HeroRankList");
+async function updateHeroRankList(player){
+	const queryheroranklist = new Parse.Query(HeroRankList);
+	queryheroranklist.ascending("challengesuccess");
+
+	var heroranklist = await queryheroranklist.find();
+	await player.fetch();
+
+	for(let i = 0; i < heroranklist.length; i++){
+		const obj = heroranklist[i];
+		await obj.fetch();
+		if(obj.get("playerid") == player.id)
+		{
+			obj.destroy();
+			addtoHeroRankList(player);
+			return;
+		}
+	}
+
+	if(heroranklist.length < 5)
+	{
+		await addtoHeroRankList(player);
+		return;
+	}
+	var samesolvedplayer = [];
+	for(let i = 0; i < heroranklist.length; i++){
+		const obj = heroranklist[i];
+		await obj.fetch();
+		if(obj.get("challengesuccess") < player.get("challengesuccess"))
+		{
+			obj.destroy();
+			addtoHeroRankList(player);
+			return;
+		}
+		else if(obj.get("challengesuccess") == player.get("challengesuccess"))
+		{
+			samesolvedplayer.push(obj);
+		}
+		else
+		{
+			return;
+		}
+	}	
+	var targetobj = null;
+	//console.log("sameratepuzzle:" + sameratepuzzle);
+	for(let j = 0; j< samesolvedplayer.length; j++){
+		var mosttimes = player.get("challengetimes");
+		var obj = samesolvedplayer[j]; 
+		await obj.fetch();
+		if(obj.get("challengetimes") > mosttimes)
+		{
+			mosttimes = obj.get("challengetimes");
+			targetobj = obj;			
+		}
+	}
+	if(targetobj != null)
+	{
+		targetobj.destroy();
+		addtoHeroRankList(player);	
+	}
+
+	return;
+}
+
+async function addtoHeroRankList(player)
+{
+	await player.fetch();
+	var heroranklist = new HeroRankList();
+	heroranklist.set('playerid', player.id);
+	heroranklist.set('nickname', player.get("nickname"));
+	heroranklist.set('challengesuccess', player.get("challengesuccess"));
+	heroranklist.set('challengetimes', player.get("challengetimes"));
+	return heroranklist.save();
 }
