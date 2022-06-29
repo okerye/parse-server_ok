@@ -160,8 +160,10 @@ async function updatepuzzledata(puzzleid, puzzletype)
 	//puzzledataobj.set("state", 1);//1: solving
 	console.log("puzzletype == \"Challenge\"" + (puzzletype == "Challenge"));
 	if(puzzletype == "Challenge")
-	{const endtime = new Date((new Date()).getTime()+1*60000);}
-	puzzledataobj.set("endtime", endtime);
+	{
+		const endtime = new Date((new Date()).getTime()+1*60000);
+		puzzledataobj.set("endtime", endtime);
+	}
 	puzzledataobj.save();
 }
 
