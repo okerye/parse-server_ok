@@ -20,7 +20,7 @@ Parse.Cloud.define("gethardpuzzleranklist", async(requestpara) => {
 		resultjson.puzzlesolvedtimes = await obj.get("solvedtimes");
 		resultjson.puzzleplayedtimes = await obj.get("playedtimes");
 		const heroid = await obj.get("hero");
-		var puzzleheroname = "";
+		var puzzleheroname = "To be decided";
 		if(heroid != null)
 		{
 			const puzzlehero = await queryplayer.get(heroid);
