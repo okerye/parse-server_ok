@@ -10,11 +10,11 @@ Parse.Cloud.define("gethardpuzzleranklist", async(requestpara) => {
 	var results = [];
 	var hpranklist = await queryhpranklist.find();
 	for(let i = 0; i < hpranklist.length; i++){
+		const obj = hpranklist[i];
+		await obj.fetch();
 		const puzzleepoch = await obj.get("puzzleepoch");
 		if(epochcode != puzzleepoch)
 			continue;
-		const obj = hpranklist[i];
-		await obj.fetch();
 		var resultjson = {};
 		resultjson.puzzleid = await obj.get("puzzleid");
 		resultjson.puzzlesolvedtimes = await obj.get("solvedtimes");
