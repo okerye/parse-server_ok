@@ -69,7 +69,7 @@ Parse.Cloud.define("verifypuzzle", async(requestpara) => {
 			{
 				console.log("increase todaysolved");
 				epochdata.increment("todaysolved");
-				if(playersolvedlastdate.getTime() != today.getTime())
+				if(!playersolvedlastdate || playersolvedlastdate.getTime() != today.getTime())
 				{
 					epochdata.increment("todaysolvedplayercount");
 				}
