@@ -14,7 +14,10 @@ Parse.Cloud.define("gethardpuzzleranklist", async(requestpara) => {
 		await obj.fetch();
 		const puzzleepoch = await obj.get("puzzleepoch");
 		if(epochcode != puzzleepoch)
+		{
+			obj.destory();
 			continue;
+		}
 		var resultjson = {};
 		resultjson.puzzleid = await obj.get("puzzleid");
 		resultjson.puzzlesolvedtimes = await obj.get("solvedtimes");

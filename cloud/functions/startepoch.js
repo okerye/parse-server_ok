@@ -18,7 +18,7 @@ var SolvingPuzzleList = Parse.Object.extend("SolvingPuzzleList");
 var SolvedCountPlayerRankList = Parse.Object.extend("SolvedCountPlayerRankList");
 var HardPuzzleRankList = Parse.Object.extend("HardPuzzleRankList");
 
-var puzzlecount = 5;
+var puzzlecount = 10;
 Parse.Cloud.define("startepoch", () => {	
 	initEpochData().then((epochdata)=>{
 
