@@ -97,7 +97,7 @@ Parse.Cloud.define("getpuzzle", async(requestpara) => {
 	const puzzlesinpos = await puzzledataobj.get("singuility_pos");
 	const puzzlesolvedtimes = await puzzledataobj.get("solvedtimes");
 	const puzzleplayedtimes = await puzzledataobj.get("playedtimes");
-	var puzzleheroname = "";
+	var puzzleheroname = "To be decided";
 	if(puzzletype == "Practice")
 	{
 		const puzzleheroid = await puzzledataobj.get("hero");
