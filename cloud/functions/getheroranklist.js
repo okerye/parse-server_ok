@@ -16,7 +16,10 @@ Parse.Cloud.define("getheroranklist", async(requestpara) => {
 		const hero = await queryplayer.get(heroid);
 		const heroepochcode = await hero.get("playerEpochId");
 		if(epochcode != heroepochcode)
+		{
+			obj.destroy();
 			continue;
+		}
 		var resultjson = {};
 		resultjson.nickname = await obj.get("nickname");
 		resultjson.challengesuccess = await obj.get("challengesuccess");

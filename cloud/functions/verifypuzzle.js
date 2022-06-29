@@ -122,7 +122,7 @@ async function updateHardPuzzleRankList(puzzle){
 		}
 	}
 
-	if(hpranklist.length < 3)
+	if(hpranklist.length < 10)
 	{
 		await addtoHardPuzzleRankList(puzzle);
 		return;
@@ -199,6 +199,7 @@ async function addtoHardPuzzleRankList(puzzle)
 var HeroRankList = Parse.Object.extend("HeroRankList");
 async function updateHeroRankList(player){
 	const queryheroranklist = new Parse.Query(HeroRankList);
+	const queryplayer = new Parse.Query(Parse.User);
 	queryheroranklist.ascending("challengesuccess");
 
 	var heroranklist = await queryheroranklist.find();
@@ -207,7 +208,9 @@ async function updateHeroRankList(player){
 	for(let i = 0; i < heroranklist.length; i++){
 		const obj = heroranklist[i];
 		await obj.fetch();
-		if(obj.get("playerid") == player.id)
+		const oldhero = await queryplayer.get(obj.get("playerid"));
+		const oldheroepochcode = await oldhero.get("playerEpochId");
+		if(obj.get("playerid") == player.id || oldheroepochcode != player.playerEpochId)
 		{
 			obj.destroy();
 			addtoHeroRankList(player);
@@ -215,7 +218,7 @@ async function updateHeroRankList(player){
 		}
 	}
 
-	if(heroranklist.length < 5)
+	if(heroranklist.length < 10)
 	{
 		await addtoHeroRankList(player);
 		return;
