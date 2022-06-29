@@ -6,7 +6,7 @@ Parse.Cloud.define("getheroranklist", async(requestpara) => {
 	var playerid = requestpara.user.id;
 	const player = await queryplayer.get(playerid);
 	const epochcode = await player.get("playerEpochId");
-	queryheroranklist.ascending("challengesuccess");
+	queryheroranklist.descending("challengesuccess");
 	var results = [];
 	var heroranklist = await queryheroranklist.find();
 	for(let i = 0; i < heroranklist.length; i++){
