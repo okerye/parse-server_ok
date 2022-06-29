@@ -49,7 +49,7 @@ Parse.Cloud.define("verifypuzzle", async(requestpara) => {
 			player.increment("challengesuccess");
 			const playersolvedlastdate = player.get("solvedlastdate");
 			var today = new Date(new Date().setHours(0,0,0,0));
-			if(playersolvedlastdate != today)
+			if(playersolvedlastdate.getTime() != today.getTime())
 			{
 				player.set("solvedlastdate", today);
 
@@ -69,7 +69,7 @@ Parse.Cloud.define("verifypuzzle", async(requestpara) => {
 			{
 				console.log("increase todaysolved");
 				epochdata.increment("todaysolved");
-				if(playersolvedlastdate != today)
+				if(playersolvedlastdate.getTime() != today.getTime())
 				{
 					epochdata.increment("todaysolvedplayercount");
 				}
