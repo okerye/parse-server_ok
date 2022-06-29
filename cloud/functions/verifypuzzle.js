@@ -55,7 +55,7 @@ Parse.Cloud.define("verifypuzzle", async(requestpara) => {
 
 			}
 			console.log("epochdata.get(todaydate):　" + epochdata.get("todaydate")　+ "  today:" + today);
-			if(epochdata.get("todaydate") != today)
+			if(epochdata.get("todaydate").getTime() != today.getTime())
 			{
 				console.log("reset todaydate");
 				epochdata.set('lastdaysolved', epochdata.get('todaysolved'));
