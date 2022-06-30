@@ -210,7 +210,7 @@ async function updateHeroRankList(player){
 		await obj.fetch();
 		const oldhero = await queryplayer.get(obj.get("playerid"));
 		const oldheroepochcode = await oldhero.get("playerEpochId");
-		if(obj.get("playerid") == player.id || oldheroepochcode != player.playerEpochId)
+		if(obj.get("playerid") == player.id || oldheroepochcode != player.get("playerEpochId"))
 		{
 			obj.destroy();
 			addtoHeroRankList(player);
