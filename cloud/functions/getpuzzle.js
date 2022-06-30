@@ -213,7 +213,7 @@ async function updateHardPuzzleRankList(puzzle){
 	for(let i = 0; i < hpranklist.length; i++){
 		const obj = hpranklist[i];
 		await obj.fetch();
-		if(obj.get("puzzleid") == puzzle.id)// || obj.get("puzzleepoch") != puzzle.get("epochcode"))
+		if(obj.get("puzzleid") == puzzle.id || obj.get("puzzleepoch") != puzzle.get("epochcode"))
 		{
 			obj.destroy();
 			addtoHardPuzzleRankList(puzzle);

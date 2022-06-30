@@ -114,7 +114,7 @@ async function updateHardPuzzleRankList(puzzle){
 	for(let i = 0; i < hpranklist.length; i++){
 		const obj = hpranklist[i];
 		await obj.fetch();
-		if(obj.get("puzzleid") == puzzle.id)// || obj.get("puzzleepoch") != puzzle.get("epochcode"))
+		if(obj.get("puzzleid") == puzzle.id || obj.get("puzzleepoch") != puzzle.get("epochcode"))
 		{
 			obj.destroy();
 			addtoHardPuzzleRankList(puzzle);
@@ -208,9 +208,9 @@ async function updateHeroRankList(player){
 	for(let i = 0; i < heroranklist.length; i++){
 		const obj = heroranklist[i];
 		await obj.fetch();
-		const oldhero = await queryplayer.get(obj.get("playerid"));
+		const oldhero = await queryplayer.get(await obj.get("playerid"));
 		const oldheroepochcode = await oldhero.get("playerEpochId");
-		if(obj.get("playerid") == player.id)// || oldheroepochcode != player.get("playerEpochId"))
+		if(obj.get("playerid") == player.id || oldheroepochcode != player.get("playerEpochId"))
 		{
 			obj.destroy();
 			addtoHeroRankList(player);
