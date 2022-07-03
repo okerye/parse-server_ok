@@ -51,8 +51,8 @@ Parse.Cloud.define("afterSignUp", async(requestpara) => {
 	const epochdata = await queryepochdata.first();
 
 	const player = await queryplayer.get(playerid);
-	player.set("playerEpochId", ""+epochdata);
-	player.set("nickname", player.get("useranme"));
+	player.set("playerEpochId", epochdata);
+	player.set("nickname", await player.get("useranme"));
 	player.set("challengetime", 0);
 	player.set("challengesucceed", 0);
 	player.set("practicetime", 0);
