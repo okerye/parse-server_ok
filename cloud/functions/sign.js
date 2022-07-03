@@ -40,3 +40,33 @@ Parse.Cloud.define("getausername", async() => {
 	resultjson.password = password;
 	return resultjson;
 });
+
+Parse.Cloud.define("afterSignUp", async(requestpara) => {
+	const queryplayer = new Parse.Query(Parse.User);
+	const queryepochdata = new Parse.Query(EpochData);
+
+	var playerid = requestpara.user.id;
+
+	queryepochdata.equalTo("isend", false);
+	const epochdata = await queryepochdata.first();
+
+	const player = await queryplayer.get(playerid);
+	player.set("playerEpochId", ""+epochdata);
+	player.set("nickname", player.get("useranme"));
+	player.set("challengetime", 0);
+	player.set("challengesucceed", 0);
+	player.set("practicetime", 0);
+	player.set("practicetsucceed", 0);
+	player.set("specialvalue", 0);
+	await player.save();
+
+	var result = {};
+	result.playerEpochId = ""+epochdata;
+	result.nickname = player.get("useranme");
+	result.challengetime = 0;
+	result.challengesucceed = 0;
+	result.practicetime = 0;
+	result.practicetsucceed = 0;
+	result.specialvalue = 0;
+	return result;
+});
