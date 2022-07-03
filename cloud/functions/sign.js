@@ -52,7 +52,7 @@ Parse.Cloud.define("afterSignUp", async(requestpara) => {
 
 	const player = await queryplayer.get(playerid);
 	player.set("playerEpochId", epochdata);
-	player.set("nickname", await player.get("useranme"));
+	player.set("nickname", await player.get("username"));
 	player.set("challengetime", 0);
 	player.set("challengesucceed", 0);
 	player.set("practicetime", 0);
@@ -61,8 +61,8 @@ Parse.Cloud.define("afterSignUp", async(requestpara) => {
 	await player.save(null, { useMasterKey: true});
 
 	var result = {};
-	result.playerEpochId = ""+epochdata;
-	result.nickname = player.get("useranme");
+	result.playerEpochId = epochdata;
+	result.nickname = player.get("username");
 	result.challengetime = 0;
 	result.challengesucceed = 0;
 	result.practicetime = 0;
