@@ -40,7 +40,7 @@ Parse.Cloud.define("getausername", async() => {
 	resultjson.password = password;
 	return resultjson;
 });
-
+var EpochData = Parse.Object.extend("EpochData");
 Parse.Cloud.define("afterSignUp", async(requestpara) => {
 	const queryplayer = new Parse.Query(Parse.User);
 	const queryepochdata = new Parse.Query(EpochData);
