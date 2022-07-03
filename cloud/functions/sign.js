@@ -58,7 +58,7 @@ Parse.Cloud.define("afterSignUp", async(requestpara) => {
 	player.set("practicetime", 0);
 	player.set("practicetsucceed", 0);
 	player.set("specialvalue", 0);
-	await player.save();
+	await player.save(null, { useMasterKey: true});
 
 	var result = {};
 	result.playerEpochId = ""+epochdata;
