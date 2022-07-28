@@ -42,7 +42,7 @@ Parse.Cloud.define("getpuzzle", async(requestpara) => {
 		{
 			querylevel.equalTo("solvedtimes", 0);//0: unsolved puzzle
 			puzzlecount = await epochdata.get("totalunsolved");
-			playerpuzzleids = await player.get("practisedpuzzles");
+			//playerpuzzleids = await player.get("practisedpuzzles");
 		}
 		else if(puzzletype == "Practice")
 		{
