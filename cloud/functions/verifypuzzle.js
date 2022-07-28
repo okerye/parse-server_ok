@@ -34,6 +34,7 @@ Parse.Cloud.define("verifypuzzle", async(requestpara) => {
 		var isright = checkanswer(puzzlesolvingsteps, currenpuzzle.get("elements"));
 		if(!isright)
 			return false;
+		var puzzlelist = [];
 		if(puzzletype == "challenge")
 		{			
 			console.log("currenpuzzle: " + currenpuzzle.id);
@@ -47,6 +48,9 @@ Parse.Cloud.define("verifypuzzle", async(requestpara) => {
 				epochdata.increment("totalsolvedplayercount");
 			}
 			player.increment("challengesuccess");
+			puzzlelist = await player.get("challengedpuzzles");
+			puzzlelist.add(currenpuzzle);
+			player.set("practisedpuzzles", puzzlelist);
 			const playersolvedlastdate = player.get("solvedlastdate");
 			var today = new Date(new Date().setHours(0,0,0,0));
 			if(!playersolvedlastdate || playersolvedlastdate.getTime() != today.getTime())
@@ -79,7 +83,10 @@ Parse.Cloud.define("verifypuzzle", async(requestpara) => {
 		else if(puzzletype == "practice")
 		{
 			player.increment("practicesuccess");
-		}
+			puzzlelist = await player.get("practisedpuzzles");
+			puzzlelist.add(currenpuzzle);
+			player.set("practisedpuzzles", puzzlelist);
+		}	
 		console.log("currentgame: " + currentgame.id);
 		
 		currenpuzzle.increment("solvedtimes");
@@ -114,7 +121,7 @@ async function updateHardPuzzleRankList(puzzle){
 	for(let i = 0; i < hpranklist.length; i++){
 		const obj = hpranklist[i];
 		await obj.fetch();
-		if(obj.get("puzzleid") == puzzle.id)// || obj.get("puzzleepoch") != puzzle.get("epochcode"))
+		if(obj.get("puzzleid") == puzzle.id || obj.get("puzzleepoch") != puzzle.get("epochcode"))
 		{
 			obj.destroy();
 			addtoHardPuzzleRankList(puzzle);
@@ -208,9 +215,9 @@ async function updateHeroRankList(player){
 	for(let i = 0; i < heroranklist.length; i++){
 		const obj = heroranklist[i];
 		await obj.fetch();
-		const oldhero = await queryplayer.get(obj.get("playerid"));
+		const oldhero = await queryplayer.get(await obj.get("playerid"));
 		const oldheroepochcode = await oldhero.get("playerEpochId");
-		if(obj.get("playerid") == player.id)// || oldheroepochcode != player.get("playerEpochId"))
+		if(obj.get("playerid") == player.id || oldheroepochcode != player.get("playerEpochId"))
 		{
 			obj.destroy();
 			addtoHeroRankList(player);

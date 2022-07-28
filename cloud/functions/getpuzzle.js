@@ -12,6 +12,7 @@ Parse.Cloud.define("getpuzzle", async(requestpara) => {
 	console.log("Player Id: " + playerid);
 	const player = await queryplayer.get(playerid);
 	const epochcode = await player.get("playerEpochId");
+	var playerpuzzleids = [];
 
 	console.log("epoch Id: " + epochcode);
 	var epochdata = await queryepochdata.get(epochcode);
@@ -41,47 +42,53 @@ Parse.Cloud.define("getpuzzle", async(requestpara) => {
 		{
 			querylevel.equalTo("solvedtimes", 0);//0: unsolved puzzle
 			puzzlecount = await epochdata.get("totalunsolved");
+			playerpuzzleids = await player.get("practisedpuzzles");
 		}
 		else if(puzzletype == "Practice")
 		{
 			querylevel.greaterThan("solvedtimes", 0);//>0: solved puzzle
 			puzzlecount = await epochdata.get("totalsolved");
+			playerpuzzleids = await player.get("challengedpuzzles");
 		}
 		console.log("puzzlecount: " + puzzlecount);
 		var idlepuzzle = false;
 		var counter = 0;
-		while(!idlepuzzle && counter < puzzlecount*2)
-		{
-			counter++;
-			var skipcount = getRandomInt(puzzlecount);
-			console.log("skipcount: " + skipcount);
-			querylevel.skip(skipcount);
+		querylevel.notContainedIn(id,playerpuzzleids);
+		const now = new Date();
+		querylevel.lessThan("endtime", now);
+		puzzleidchosen = await querylevel.first();
+		// while(!idlepuzzle && counter < puzzlecount*2)
+		// {
+		// 	counter++;
+		// 	var skipcount = getRandomInt(puzzlecount);
+		// 	console.log("skipcount: " + skipcount);
+		// 	querylevel.skip(skipcount);
 
-		    puzzleidchosen = await querylevel.first();
-			console.log("puzzlelistid Id: " + puzzleidchosen.id);
-			//puzzlestate = await puzzleidchosen.get("state")
-			//if(puzzlestate == 1)
-			{
-				endtime = await puzzleidchosen.get("endtime");
-				const now = new Date();
-				if(endtime > now)
-				{
-					idlepuzzle = false;
-					console.log("endtime > now! ");
-				}
-				else
-				{
-					idlepuzzle = true;
-					console.log("endtime < now! ");
-				}	
-			}
-			// else
-			// {
-			// 	idlepuzzle = true;
-			// 	console.log("puzzleidchosen.state == 0");
-			// }	
-		}
-		if(!idlepuzzle){
+		//     puzzleidchosen = await querylevel.first();
+		// 	console.log("puzzlelistid Id: " + puzzleidchosen.id);
+		// 	//puzzlestate = await puzzleidchosen.get("state")
+		// 	//if(puzzlestate == 1)
+		// 	{
+		// 		endtime = await puzzleidchosen.get("endtime");
+		// 		const now = new Date();
+		// 		if(endtime > now)
+		// 		{
+		// 			idlepuzzle = false;
+		// 			console.log("endtime > now! ");
+		// 		}
+		// 		else
+		// 		{
+		// 			idlepuzzle = true;
+		// 			console.log("endtime < now! ");
+		// 		}	
+		// 	}
+		// 	// else
+		// 	// {
+		// 	// 	idlepuzzle = true;
+		// 	// 	console.log("puzzleidchosen.state == 0");
+		// 	// }	
+		// }
+		if(puzzleidchosen == null){
 			console.log("no availibel puzzle!");
 			return null;	
 		}
@@ -213,7 +220,7 @@ async function updateHardPuzzleRankList(puzzle){
 	for(let i = 0; i < hpranklist.length; i++){
 		const obj = hpranklist[i];
 		await obj.fetch();
-		if(obj.get("puzzleid") == puzzle.id)// || obj.get("puzzleepoch") != puzzle.get("epochcode"))
+		if(obj.get("puzzleid") == puzzle.id || obj.get("puzzleepoch") != puzzle.get("epochcode"))
 		{
 			obj.destroy();
 			addtoHardPuzzleRankList(puzzle);
