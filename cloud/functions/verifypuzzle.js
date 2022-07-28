@@ -34,6 +34,7 @@ Parse.Cloud.define("verifypuzzle", async(requestpara) => {
 		var isright = checkanswer(puzzlesolvingsteps, currenpuzzle.get("elements"));
 		if(!isright)
 			return false;
+		var puzzlelist = [];
 		if(puzzletype == "challenge")
 		{			
 			console.log("currenpuzzle: " + currenpuzzle.id);
@@ -47,6 +48,9 @@ Parse.Cloud.define("verifypuzzle", async(requestpara) => {
 				epochdata.increment("totalsolvedplayercount");
 			}
 			player.increment("challengesuccess");
+			puzzlelist = await player.get("challengedpuzzles");
+			puzzlelist.add(currenpuzzle);
+			player.set("practisedpuzzles", puzzlelist);
 			const playersolvedlastdate = player.get("solvedlastdate");
 			var today = new Date(new Date().setHours(0,0,0,0));
 			if(!playersolvedlastdate || playersolvedlastdate.getTime() != today.getTime())
@@ -79,7 +83,10 @@ Parse.Cloud.define("verifypuzzle", async(requestpara) => {
 		else if(puzzletype == "practice")
 		{
 			player.increment("practicesuccess");
-		}
+			puzzlelist = await player.get("practisedpuzzles");
+			puzzlelist.add(currenpuzzle);
+			player.set("practisedpuzzles", puzzlelist);
+		}	
 		console.log("currentgame: " + currentgame.id);
 		
 		currenpuzzle.increment("solvedtimes");
