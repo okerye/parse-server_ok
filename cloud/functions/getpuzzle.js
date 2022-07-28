@@ -49,14 +49,14 @@ Parse.Cloud.define("getpuzzle", async(requestpara) => {
 			querylevel.greaterThan("solvedtimes", 0);//>0: solved puzzle
 			puzzlecount = await epochdata.get("totalsolved");
 			playerpuzzleids = await player.get("practisedpuzzles");
-			chapuzzleids = await player.get("challengedpuzzles");
+			var chapuzzleids = await player.get("challengedpuzzles");
 			if(playerpuzzleids == null)
 			{
 				playerpuzzleids = [];
 			}
 			if(chapuzzleids != null && chapuzzleids.length > 0)
 			{
-				playerpuzzleids.push(chapuzzleids);	
+				playerpuzzleids = playerpuzzleids.concat(chapuzzleids);	
 			}
 		}
 		console.log("puzzlecount: " + puzzlecount);
