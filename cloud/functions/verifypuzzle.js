@@ -52,7 +52,7 @@ Parse.Cloud.define("verifypuzzle", async(requestpara) => {
 			if(puzzlelist == null)
 				puzzlelist = [];
 			puzzlelist.push(currenpuzzle.id);
-			player.set("practisedpuzzles", puzzlelist);
+			player.set("challengedpuzzles", puzzlelist);
 			const playersolvedlastdate = player.get("solvedlastdate");
 			var today = new Date(new Date().setHours(0,0,0,0));
 			if(!playersolvedlastdate || playersolvedlastdate.getTime() != today.getTime())
