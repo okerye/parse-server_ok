@@ -49,7 +49,7 @@ Parse.Cloud.define("verifypuzzle", async(requestpara) => {
 			}
 			player.increment("challengesuccess");
 			puzzlelist = await player.get("challengedpuzzles");
-			puzzlelist.add(currenpuzzle);
+			puzzlelist.push(currenpuzzle.id);
 			player.set("practisedpuzzles", puzzlelist);
 			const playersolvedlastdate = player.get("solvedlastdate");
 			var today = new Date(new Date().setHours(0,0,0,0));
@@ -84,7 +84,7 @@ Parse.Cloud.define("verifypuzzle", async(requestpara) => {
 		{
 			player.increment("practicesuccess");
 			puzzlelist = await player.get("practisedpuzzles");
-			puzzlelist.add(currenpuzzle);
+			puzzlelist.push(currenpuzzle.id);
 			player.set("practisedpuzzles", puzzlelist);
 		}	
 		console.log("currentgame: " + currentgame.id);
