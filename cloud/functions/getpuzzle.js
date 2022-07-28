@@ -49,6 +49,11 @@ Parse.Cloud.define("getpuzzle", async(requestpara) => {
 			querylevel.greaterThan("solvedtimes", 0);//>0: solved puzzle
 			puzzlecount = await epochdata.get("totalsolved");
 			playerpuzzleids = await player.get("practisedpuzzles");
+			chapuzzleids = await player.get("challengedpuzzles");
+			if(chapuzzleids != null && chapuzzleids.length > 0)
+			{
+				playerpuzzleids.push(chapuzzleids);	
+			}
 		}
 		console.log("puzzlecount: " + puzzlecount);
 		var idlepuzzle = false;
