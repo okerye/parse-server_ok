@@ -49,6 +49,8 @@ Parse.Cloud.define("verifypuzzle", async(requestpara) => {
 			}
 			player.increment("challengesuccess");
 			puzzlelist = await player.get("challengedpuzzles");
+			if(puzzlelist == null)
+				puzzlelist = [];
 			puzzlelist.push(currenpuzzle.id);
 			player.set("practisedpuzzles", puzzlelist);
 			const playersolvedlastdate = player.get("solvedlastdate");
@@ -84,6 +86,8 @@ Parse.Cloud.define("verifypuzzle", async(requestpara) => {
 		{
 			player.increment("practicesuccess");
 			puzzlelist = await player.get("practisedpuzzles");
+			if(puzzlelist == null)
+				puzzlelist = [];
 			puzzlelist.push(currenpuzzle.id);
 			player.set("practisedpuzzles", puzzlelist);
 		}	
