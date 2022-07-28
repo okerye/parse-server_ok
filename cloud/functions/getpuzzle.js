@@ -54,7 +54,8 @@ Parse.Cloud.define("getpuzzle", async(requestpara) => {
 		var idlepuzzle = false;
 		var counter = 0;
 		console.log("playerpuzzleids: " + playerpuzzleids);
-		querylevel.notContainedIn('objectId',playerpuzzleids);
+		if(playerpuzzleids.length > 0)
+			querylevel.notContainedIn('objectId',playerpuzzleids);
 		const now = new Date();
 		querylevel.lessThan("endtime", now);
 		puzzleidchosen = await querylevel.first();
