@@ -148,6 +148,8 @@ Parse.Cloud.define("getpuzzle", async(requestpara) => {
 	 resultjson.puzzleplayedtimes = puzzleplayedtimes;
 	 resultjson.puzzlehero = puzzleheroname;
 	 resultjson.playerpowerpoints = playerpowerpoints;
+	 resultjson.undopowerpoints = 1;
+	 resultjson.resetpowerpoints = 3;
 	return resultjson;
 });
 
