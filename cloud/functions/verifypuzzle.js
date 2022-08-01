@@ -127,7 +127,16 @@ Parse.Cloud.define("verifypuzzle", async(requestpara) => {
 
 function checkanswer(actionsteps, puzzle)
 {
-	return {isright: true, powerpointsused: 1};
+	var pp = 0;
+
+	actionsteps.forEach(function(element){
+	  console.log(element);
+	  if(element == -100)
+	  	pp += 1;
+	  else if(element == -200)
+	  	pp += 3;
+	});
+	return {isright: true, powerpointsused: pp};
 }
 
 var HardPuzzleRankList = Parse.Object.extend("HardPuzzleRankList");
