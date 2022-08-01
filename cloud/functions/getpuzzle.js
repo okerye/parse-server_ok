@@ -12,6 +12,11 @@ Parse.Cloud.define("getpuzzle", async(requestpara) => {
 	console.log("Player Id: " + playerid);
 	const player = await queryplayer.get(playerid);
 	const epochcode = await player.get("playerEpochId");
+	var playerpowerpoints = await player.get("powerpoints");
+	if(playerpowerpoints == null)
+	{
+		playerpowerpoints = 0;
+	}
 	var playerpuzzleids = [];
 
 	console.log("epoch Id: " + epochcode);
@@ -142,6 +147,7 @@ Parse.Cloud.define("getpuzzle", async(requestpara) => {
 	 resultjson.puzzlesolvedtimes = puzzlesolvedtimes;
 	 resultjson.puzzleplayedtimes = puzzleplayedtimes;
 	 resultjson.puzzlehero = puzzleheroname;
+	 resultjson.playerpowerpoints = playerpowerpoints;
 	return resultjson;
 });
 

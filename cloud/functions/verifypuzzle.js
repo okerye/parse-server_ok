@@ -14,6 +14,11 @@ Parse.Cloud.define("verifypuzzle", async(requestpara) => {
 	console.log("playerid: " + playerid);
 	console.log("puzzlesolvingsteps: " + puzzlesolvingsteps);
 	const player = await queryplayer.get(playerid);
+	var playerpowerpoints = await player.get("powerpoints");
+	if(playerpowerpoints == null)
+	{
+		playerpowerpoints = 0;
+	}
 	console.log("state: " + 1);
 	const currentgameid = await player.get("currentgame");
 	console.log("state: " + 2);
@@ -24,6 +29,9 @@ Parse.Cloud.define("verifypuzzle", async(requestpara) => {
 	const puzzleid = await currentgame.get("puzzleid");
 	const currenpuzzle = await querypuzzledata.get(puzzleid.id);
 	const endtime = await currenpuzzle.get("endtime");
+	var powerpointsreward = await currenpuzzle.get("powerpointsreward");
+	if(powerpointsreward == null)
+		powerpointsreward = 5;
 	const epochdata = await queryepochdata.get(epochcode);
 	console.log("epochdata: " + epochdata);
 	const now = new Date();
@@ -31,8 +39,10 @@ Parse.Cloud.define("verifypuzzle", async(requestpara) => {
 	if(now < endtime || puzzletype == "practice") //complete challenge
 	{
 		//todo: check if it is right  
-		var isright = checkanswer(puzzlesolvingsteps, currenpuzzle.get("elements"));
+		var {isright, powerpointsused} = checkanswer(puzzlesolvingsteps, currenpuzzle.get("elements"));
 		if(!isright)
+			return false;
+		if(puzzletype == "challenge" && playerpowerpoints - powerpointsused < 0)
 			return false;
 		var puzzlelist = [];
 		if(puzzletype == "challenge")
@@ -60,6 +70,7 @@ Parse.Cloud.define("verifypuzzle", async(requestpara) => {
 				player.set("solvedlastdate", today);
 
 			}
+			player.set("powerpoints", playerpowerpoints - powerpointsused);
 			console.log("epochdata.get(todaydate):　" + epochdata.get("todaydate")　+ "  today:" + today);
 			if(epochdata.get("todaydate").getTime() != today.getTime())
 			{
@@ -85,14 +96,20 @@ Parse.Cloud.define("verifypuzzle", async(requestpara) => {
 		else if(puzzletype == "practice")
 		{
 			player.increment("practicesuccess");
+			player.set("powerpoints", playerpowerpoints + Math.round(powerpointsreward));
+			
 			puzzlelist = await player.get("practisedpuzzles");
 			if(puzzlelist == null)
 				puzzlelist = [];
 			puzzlelist.push(currenpuzzle.id);
 			player.set("practisedpuzzles", puzzlelist);
 		}	
+
+		
 		console.log("currentgame: " + currentgame.id);
 		
+		var cursolvedtimes = await currenpuzzle.get("solvedtimes");
+		currenpuzzle.set("powerpointsreward", (powerpointsreward * cursolvedtimes + powerpointsused) / (cursolvedtimes + 1));
 		currenpuzzle.increment("solvedtimes");
 		//currenpuzzle.set("state", 0);
 		await currentgame.save();
@@ -110,7 +127,7 @@ Parse.Cloud.define("verifypuzzle", async(requestpara) => {
 
 function checkanswer(actionsteps, puzzle)
 {
-	return true;
+	return {true, 1};
 }
 
 var HardPuzzleRankList = Parse.Object.extend("HardPuzzleRankList");
