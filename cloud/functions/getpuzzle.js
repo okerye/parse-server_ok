@@ -63,6 +63,7 @@ Parse.Cloud.define("getpuzzle", async(requestpara) => {
 			{
 				playerpuzzleids = playerpuzzleids.concat(chapuzzleids);	
 			}
+			puzzlecount = puzzlecount - playerpuzzleids.length;
 		}
 		console.log("puzzlecount: " + puzzlecount);
 		var idlepuzzle = false;
@@ -76,7 +77,7 @@ Parse.Cloud.define("getpuzzle", async(requestpara) => {
 		}
 		const now = new Date();
 		querylevel.lessThan("endtime", now);
-		var skipcount = getRandomInt(puzzlecount - playersolved);
+		var skipcount = getRandomInt(puzzlecount);
 		querylevel.skip(skipcount);
 		puzzleidchosen = await querylevel.first();
 		// while(!idlepuzzle && counter < puzzlecount*2)
